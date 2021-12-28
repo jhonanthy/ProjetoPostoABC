@@ -1,0 +1,29 @@
+unit UnDataModule;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, IBX.IBCustomDataSet,
+  IBX.IBQuery, IBX.IBDatabase;
+
+type
+  TfrmDataModule = class(TForm)
+    IBDatabase1: TIBDatabase;
+    IBTransaction1: TIBTransaction;
+    IbqConsulta: TIBQuery;
+    DsConsulta: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDataModule: TfrmDataModule;
+
+implementation
+
+{$R *.dfm}
+
+end.
