@@ -2,8 +2,8 @@ object frmFormPrincipal: TfrmFormPrincipal
   Left = 0
   Top = 0
   Caption = 'Sistema PostoABC'
-  ClientHeight = 428
-  ClientWidth = 658
+  ClientHeight = 368
+  ClientWidth = 943
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,74 +12,50 @@ object frmFormPrincipal: TfrmFormPrincipal
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 658
-    Height = 428
+    Width = 943
+    Height = 368
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 658
+    ExplicitHeight = 335
     object PageControl1: TPageControl
       Left = 0
       Top = 0
-      Width = 658
-      Height = 428
+      Width = 943
+      Height = 368
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 658
+      ExplicitHeight = 335
       object TabSheet1: TTabSheet
         Caption = 'Cadastro Abastecimento'
         object pnlCadastroAbastecimento: TPanel
           Left = 0
           Top = 0
-          Width = 650
-          Height = 400
+          Width = 935
+          Height = 340
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 650
+          ExplicitHeight = 307
           object pnlTop: TPanel
             Left = 1
             Top = 1
-            Width = 648
+            Width = 933
             Height = 41
             Align = alTop
             BevelOuter = bvNone
             ParentBackground = False
             TabOrder = 0
-            object sb_Inserir: TSpeedButton
-              Left = 283
-              Top = 2
-              Width = 57
-              Height = 33
-              Caption = 'Novo'
-              OnClick = sb_InserirClick
-            end
-            object sb_alterar: TSpeedButton
-              Left = 346
-              Top = 2
-              Width = 57
-              Height = 33
-              Caption = 'Alterar'
-              OnClick = sb_alterarClick
-            end
-            object Sb_Excluir: TSpeedButton
-              Left = 466
-              Top = 1
-              Width = 57
-              Height = 33
-              Caption = 'Excluir'
-              OnClick = Sb_ExcluirClick
-            end
-            object Sb_Sair: TSpeedButton
-              Left = 585
-              Top = 1
-              Width = 57
-              Height = 33
-              Caption = 'Sair'
-              OnClick = Sb_SairClick
-            end
+            ExplicitWidth = 648
             object Sb_Limpar: TSpeedButton
               Left = 525
               Top = 1
@@ -88,23 +64,28 @@ object frmFormPrincipal: TfrmFormPrincipal
               Caption = 'Limpar'
               OnClick = Sb_LimparClick
             end
-            object sb_gravar: TSpeedButton
-              Left = 405
-              Top = 2
-              Width = 57
-              Height = 33
-              Caption = 'Gravar'
-              OnClick = sb_gravarClick
+            object DBNavigator1: TDBNavigator
+              Left = 4
+              Top = 1
+              Width = 495
+              Height = 34
+              DataSource = DataSource1
+              VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbPost, nbCancel, nbRefresh]
+              TabOrder = 0
+              BeforeAction = DBNavigator1BeforeAction
+              OnClick = DBNavigator1Click
             end
           end
           object GroupBox1: TGroupBox
             Left = 1
             Top = 42
-            Width = 648
-            Height = 357
+            Width = 933
+            Height = 297
             Align = alClient
             Caption = 'Abastecimento'
             TabOrder = 1
+            ExplicitWidth = 648
+            ExplicitHeight = 264
             object Label1: TLabel
               Left = 4
               Top = 22
@@ -120,15 +101,15 @@ object frmFormPrincipal: TfrmFormPrincipal
               Caption = 'Bomba Utilizada:'
             end
             object Label3: TLabel
-              Left = 177
-              Top = 69
+              Left = 328
+              Top = 71
               Width = 80
               Height = 13
               Caption = 'Valor Abastecido'
             end
             object lbValorAbastecido: TLabel
-              Left = 410
-              Top = 69
+              Left = 561
+              Top = 71
               Width = 59
               Height = 13
               Hint = 'Valor Abastecido -13%(Imposto)'
@@ -142,21 +123,26 @@ object frmFormPrincipal: TfrmFormPrincipal
               Caption = 'Data do Abastecimento:'
             end
             object Label4: TLabel
-              Left = 282
-              Top = 69
+              Left = 433
+              Top = 71
               Width = 101
               Height = 13
               Hint = 'Valor Abastecido -13%(Imposto)'
               Caption = 'Desc.Imposto(-13%)'
             end
-            object edtCodigo: TDBEdit
-              Left = 3
-              Top = 35
-              Width = 53
-              Height = 21
-              DataField = 'ABA_CODIGO'
-              DataSource = DataSource1
-              TabOrder = 1
+            object Label5: TLabel
+              Left = 231
+              Top = 71
+              Width = 50
+              Height = 13
+              Caption = 'QTD Litros'
+            end
+            object Label6: TLabel
+              Left = 154
+              Top = 71
+              Width = 27
+              Height = 13
+              Caption = 'Pre'#231'o'
             end
             object CbBombaUtilizada: TComboBox
               Left = 3
@@ -164,64 +150,87 @@ object frmFormPrincipal: TfrmFormPrincipal
               Width = 145
               Height = 21
               Style = csDropDownList
-              Enabled = False
               TabOrder = 0
             end
-            object DBEdit2: TDBEdit
-              Left = 177
+            object DBEdtValAbastecido: TDBEdit
+              Left = 328
               Top = 88
               Width = 79
               Height = 21
+              Color = clBtnFace
               DataField = 'ABA_VALOR_BRUTO'
               DataSource = DataSource1
-              TabOrder = 2
-              OnExit = DBEdit2Exit
+              Enabled = False
+              TabOrder = 3
+              OnChange = DBEdtValAbastecidoChange
             end
-            object DBEdtValorAbastecido: TDBEdit
-              Left = 410
+            object DBEdtValTotal: TDBEdit
+              Left = 561
               Top = 88
               Width = 59
               Height = 21
+              Color = clBtnFace
               DataField = 'ABA_VALOR_LIQUIDO'
               DataSource = DataSource1
-              TabOrder = 3
+              Enabled = False
+              TabOrder = 4
             end
             object edtData: TDBEdit
               Left = 93
               Top = 35
               Width = 121
               Height = 21
+              Color = clBtnFace
               DataField = 'ABA_DATA'
               DataSource = DataSource1
-              TabOrder = 4
+              TabOrder = 5
             end
-            object edtDesconto: TEdit
-              Left = 283
+            object DBEdtLitro: TDBEdit
+              Left = 231
               Top = 88
-              Width = 102
+              Width = 79
               Height = 21
+              DataField = 'ABA_QTDLITROS'
+              DataSource = DataSource1
+              TabOrder = 2
+              OnExit = DBEdtLitroExit
+            end
+            object DBEdtPreco: TDBEdit
+              Left = 154
+              Top = 88
+              Width = 63
+              Height = 21
+              DataField = 'ABA_PRECO_COMBUSTIVEL'
+              DataSource = DataSource1
+              TabOrder = 1
+            end
+            object edtCodigo: TDBEdit
+              Left = 3
+              Top = 35
+              Width = 64
+              Height = 21
+              Color = clBtnFace
+              DataField = 'ABA_CODIGO'
+              DataSource = DataSource1
+              ReadOnly = True
+              TabOrder = 6
+            end
+            object DBEdtDesconto: TDBEdit
+              Left = 433
+              Top = 88
+              Width = 101
+              Height = 21
+              Color = clBtnFace
+              DataField = 'DESCONTO'
+              DataSource = DataSource1
+              Enabled = False
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clRed
               Font.Height = -11
               Font.Name = 'Tahoma'
               Font.Style = []
               ParentFont = False
-              TabOrder = 5
-              Text = 'edtDesconto'
-            end
-            object RdgTipoCombustivel: TDBRadioGroup
-              Left = 252
-              Top = 22
-              Width = 309
-              Height = 43
-              Caption = 'Tipo de Combustivel'
-              Columns = 2
-              DataField = 'ABA_TIPOCOMBUSTIVEL'
-              DataSource = DataSource1
-              Items.Strings = (
-                'Gasolina'
-                'Ol'#233'o Diesel')
-              TabOrder = 6
+              TabOrder = 7
             end
           end
         end
@@ -232,61 +241,85 @@ object frmFormPrincipal: TfrmFormPrincipal
         object DBGrid1: TDBGrid
           Left = 0
           Top = 49
-          Width = 650
-          Height = 351
+          Width = 935
+          Height = 291
           Align = alClient
-          DataSource = DataSource1
+          DataSource = DsConsulta
+          ReadOnly = True
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
           TitleFont.Height = -11
           TitleFont.Name = 'Tahoma'
           TitleFont.Style = []
+          OnDblClick = DBGrid1DblClick
           Columns = <
             item
               Expanded = False
               FieldName = 'ABA_CODIGO'
+              Title.Caption = 'Codigo'
+              Width = 46
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'ABA_TIPOCOMBUSTIVEL'
+              Title.Caption = 'Tipo do Combust'#237'vel'
+              Width = 101
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'ABA_BOMBA_UTILIZADA'
+              Title.Caption = 'n'#186' da Bomba Utilizada'
+              Width = 116
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'ABA_QTDLITROS'
+              Title.Caption = 'Quant. Litros'
+              Width = 68
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'ABA_DATA'
+              Title.Caption = 'Data do Abastecimento'
+              Width = 123
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ABA_PRECO_COMBUSTIVEL'
+              Title.Caption = 'Pre'#231'o do Litro'
+              Width = 102
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'ABA_VALOR_BRUTO'
+              Title.Caption = 'Valor do Abastecimento'
+              Width = 119
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'ABA_VALOR_LIQUIDO'
+              Title.Caption = 'Valor do Abastecimento Total'
+              Width = 148
               Visible = True
             end>
         end
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 650
+          Width = 935
           Height = 49
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitWidth = 650
           object lbConsulta: TLabel
             Left = 3
             Top = 16
@@ -300,16 +333,16 @@ object frmFormPrincipal: TfrmFormPrincipal
             Width = 433
             Height = 21
             TabOrder = 0
+            OnChange = edtConsultaChange
           end
-          object ComboBox1: TComboBox
+          object cbPesquisa: TComboBox
             Left = 499
             Top = 13
             Width = 146
             Height = 21
             Style = csDropDownList
-            ItemIndex = 0
             TabOrder = 1
-            Text = 'Codigo do Abastecimento'
+            OnChange = cbPesquisaChange
             Items.Strings = (
               'Codigo do Abastecimento'
               'Tipo de Combustivel'
@@ -323,84 +356,14 @@ object frmFormPrincipal: TfrmFormPrincipal
       end
     end
   end
-  object IBDataSet1: TIBDataSet
-    Database = frmDataModule.IBDatabase1
-    Transaction = frmDataModule.Trans
-    BufferChunks = 1000
-    CachedUpdates = False
-    DeleteSQL.Strings = (
-      'delete from ABASTECIMENTO'
-      'where'
-      '  ABA_CODIGO = :OLD_ABA_CODIGO')
-    InsertSQL.Strings = (
-      'insert into ABASTECIMENTO'
-      
-        '  (ABA_CODIGO, ABA_TIPOCOMBUSTIVEL, ABA_BOMBA_UTILIZADA, ABA_QTD' +
-        'LITROS, '
-      '   ABA_DATA, ABA_VALOR_BRUTO, ABA_VALOR_LIQUIDO)'
-      'values'
-      
-        '  (:ABA_CODIGO, :ABA_TIPOCOMBUSTIVEL, :ABA_BOMBA_UTILIZADA, :ABA' +
-        '_QTDLITROS, '
-      '   :ABA_DATA, :ABA_VALOR_BRUTO, :ABA_VALOR_LIQUIDO)')
-    SelectSQL.Strings = (
-      'select * from ABASTECIMENTO')
-    ModifySQL.Strings = (
-      'update ABASTECIMENTO'
-      'set'
-      '  ABA_CODIGO = :ABA_CODIGO,'
-      '  ABA_TIPOCOMBUSTIVEL = :ABA_TIPOCOMBUSTIVEL,'
-      '  ABA_BOMBA_UTILIZADA = :ABA_BOMBA_UTILIZADA,'
-      '  ABA_QTDLITROS = :ABA_QTDLITROS,'
-      '  ABA_DATA = :ABA_DATA,'
-      '  ABA_VALOR_BRUTO = :ABA_VALOR_BRUTO,'
-      '  ABA_VALOR_LIQUIDO = :ABA_VALOR_LIQUIDO'
-      'where'
-      '  ABA_CODIGO = :OLD_ABA_CODIGO')
-    ParamCheck = True
-    UniDirectional = False
-    Left = 436
-    Top = 146
-    object IBDataSet1ABA_CODIGO: TIntegerField
-      FieldName = 'ABA_CODIGO'
-      Origin = 'ABASTECIMENTO.ABA_CODIGO'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
-    object IBDataSet1ABA_TIPOCOMBUSTIVEL: TIntegerField
-      FieldName = 'ABA_TIPOCOMBUSTIVEL'
-      Origin = 'ABASTECIMENTO.ABA_TIPOCOMBUSTIVEL'
-    end
-    object IBDataSet1ABA_BOMBA_UTILIZADA: TIntegerField
-      FieldName = 'ABA_BOMBA_UTILIZADA'
-      Origin = 'ABASTECIMENTO.ABA_BOMBA_UTILIZADA'
-    end
-    object IBDataSet1ABA_QTDLITROS: TIBBCDField
-      FieldName = 'ABA_QTDLITROS'
-      Origin = 'ABASTECIMENTO.ABA_QTDLITROS'
-      Precision = 18
-      Size = 2
-    end
-    object IBDataSet1ABA_DATA: TDateField
-      FieldName = 'ABA_DATA'
-      Origin = 'ABASTECIMENTO.ABA_DATA'
-    end
-    object IBDataSet1ABA_VALOR_BRUTO: TIBBCDField
-      FieldName = 'ABA_VALOR_BRUTO'
-      Origin = 'ABASTECIMENTO.ABA_VALOR_BRUTO'
-      Precision = 18
-      Size = 2
-    end
-    object IBDataSet1ABA_VALOR_LIQUIDO: TIBBCDField
-      FieldName = 'ABA_VALOR_LIQUIDO'
-      Origin = 'ABASTECIMENTO.ABA_VALOR_LIQUIDO'
-      Precision = 18
-      Size = 2
-    end
-  end
   object DataSource1: TDataSource
-    DataSet = IBDataSet1
+    DataSet = frmDataModule.FDTable1
     Left = 368
     Top = 147
+  end
+  object DsConsulta: TDataSource
+    DataSet = frmDataModule.FDQueryConsulta
+    Left = 464
+    Top = 155
   end
 end

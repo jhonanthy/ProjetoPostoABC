@@ -3,7 +3,8 @@ program ProjetoPostoABC;
 uses
   Vcl.Forms,
   UnFormPrincipal in 'UnFormPrincipal.pas' {frmFormPrincipal},
-  UnDataModule in 'UnDataModule.pas' {frmDataModule};
+  UnDataModule in 'UnDataModule.pas' {frmDataModule},
+  UnEnum in 'UnEnum.pas';
 
 {$R *.res}
 

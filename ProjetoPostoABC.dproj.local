@@ -11,5 +11,7 @@
     <Transaction>2021/12/28 17:02:16.000.494,=C:\Workspace\ProjetoPostoABC\Unit1.pas</Transaction>
     <Transaction>2021/12/28 17:02:58.000.031,C:\Workspace\ProjetoPostoABC\Unit1.pas=C:\Workspace\ProjetoPostoABC\UnDataModule.pas</Transaction>
     <Transaction>2021/12/28 17:02:58.000.031,C:\Workspace\ProjetoPostoABC\Unit1.dfm=C:\Workspace\ProjetoPostoABC\UnDataModule.dfm</Transaction>
+    <Transaction>2021/12/29 19:28:57.882,=C:\Workspace\ProjetoPostoABC\Unit1.pas</Transaction>
+    <Transaction>2021/12/29 19:29:31.910,C:\Workspace\ProjetoPostoABC\UnEnum.pas=C:\Workspace\ProjetoPostoABC\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>
