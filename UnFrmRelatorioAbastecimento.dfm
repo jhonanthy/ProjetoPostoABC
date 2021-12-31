@@ -2,7 +2,7 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
   Left = 0
   Top = 0
   Caption = 'frmRelatorioAbastecimento'
-  ClientHeight = 525
+  ClientHeight = 561
   ClientWidth = 771
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -28,7 +28,7 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
       Left = 38
       Top = 97
       Width = 718
-      Height = 432
+      Height = 360
       DataFields = 'ABA_DATA'
       object RLBand2: TRLBand
         Left = 0
@@ -45,7 +45,7 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
           ParentColor = False
           Transparent = False
           object RLDBText3: TRLDBText
-            Left = 151
+            Left = 146
             Top = 10
             Width = 72
             Height = 16
@@ -55,7 +55,7 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
             Transparent = False
           end
           object RLLabel1: TRLLabel
-            Left = 5
+            Left = 0
             Top = 10
             Width = 144
             Height = 16
@@ -76,20 +76,61 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
           Width = 718
           Height = 51
           object RLDBText1: TRLDBText
-            Left = 160
-            Top = 10
-            Width = 140
+            Left = 495
+            Top = 14
+            Width = 49
             Height = 16
             DataField = 'ABA_VALOR_LIQUIDO'
             DataSource = DataSource1
+            DisplayMask = 'R$#,##0.00'
             Text = ''
           end
           object RLLabel6: TRLLabel
             Left = 3
             Top = 14
-            Width = 38
+            Width = 73
             Height = 16
-            Caption = 'Valor:'
+            Caption = 'Valor Bruto:'
+          end
+          object RLDBText2: TRLDBText
+            Left = 87
+            Top = 14
+            Width = 73
+            Height = 16
+            DataField = 'ABA_VALOR_BRUTO'
+            DataSource = DataSource1
+            DisplayMask = 'R$#,##0.00'
+            Text = ''
+          end
+          object RLLabel8: TRLLabel
+            Left = 187
+            Top = 14
+            Width = 88
+            Height = 16
+            Caption = 'Imposto(13%):'
+          end
+          object RLDBText6: TRLDBText
+            Left = 277
+            Top = 14
+            Width = 76
+            Height = 16
+            DataField = 'DESCONTO'
+            DataSource = DataSource1
+            DisplayMask = 'R$#,##0.00'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clRed
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = []
+            ParentFont = False
+            Text = ''
+          end
+          object RLLabel9: TRLLabel
+            Left = 385
+            Top = 14
+            Width = 83
+            Height = 16
+            Caption = 'Valor Liquido:'
           end
         end
         object RLBand3: TRLBand
@@ -99,7 +140,7 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
           Height = 33
           BandType = btHeader
           object RLDBText4: TRLDBText
-            Left = 152
+            Left = 151
             Top = 12
             Width = 159
             Height = 16
@@ -135,9 +176,9 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
               Caption = 'Bomba Utilizada:'
             end
             object RLDBText5: TRLDBText
-              Left = 156
+              Left = 151
               Top = 17
-              Width = 156
+              Width = 159
               Height = 16
               DataField = 'ABA_BOMBA_UTILIZADA'
               DataSource = DataSource1
@@ -150,18 +191,18 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
         Left = 0
         Top = 277
         Width = 718
-        Height = 132
+        Height = 76
         BandType = btFooter
         object RLLabel2: TRLLabel
-          Left = 136
-          Top = 48
-          Width = 77
+          Left = 385
+          Top = 17
+          Width = 104
           Height = 16
-          Caption = 'Total do Dia:'
+          Caption = 'Total Liquido Dia:'
         end
         object RLDBResult1: TRLDBResult
-          Left = 232
-          Top = 48
+          Left = 495
+          Top = 17
           Width = 179
           Height = 16
           DataField = 'ABA_VALOR_LIQUIDO'
@@ -173,9 +214,9 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
         end
         object RLDraw1: TRLDraw
           Left = 3
-          Top = 84
+          Top = 39
           Width = 712
-          Height = 48
+          Height = 35
           DrawKind = dkLine
         end
       end
@@ -317,11 +358,106 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
         end
       end
     end
+    object RLBand7: TRLBand
+      Left = 38
+      Top = 457
+      Width = 718
+      Height = 104
+      BandType = btSummary
+      object RLPanel3: TRLPanel
+        Left = 3
+        Top = 6
+        Width = 712
+        Height = 95
+        Color = clActiveBorder
+        ParentColor = False
+        Transparent = False
+        object RLLabel7: TRLLabel
+          Left = 2
+          Top = 79
+          Width = 121
+          Height = 16
+          Caption = 'Total Geral(Liquido):'
+          Transparent = False
+        end
+        object RLDBResult2: TRLDBResult
+          Left = 128
+          Top = 79
+          Width = 179
+          Height = 16
+          DataField = 'ABA_VALOR_LIQUIDO'
+          DataSource = DataSource1
+          DisplayMask = 'R$#,##0.00'
+          Info = riSum
+          ResetAfterPrint = True
+          Text = ''
+          Transparent = False
+        end
+        object RLLabel10: TRLLabel
+          Left = 2
+          Top = 63
+          Width = 121
+          Height = 16
+          Caption = 'Total Geral Imposto:'
+          Transparent = False
+        end
+        object RLDBResult3: TRLDBResult
+          Left = 128
+          Top = 63
+          Width = 115
+          Height = 16
+          Color = clActiveBorder
+          DataField = 'DESCONTO'
+          DataSource = DataSource1
+          DisplayMask = 'R$#,##0.00'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Info = riSum
+          ParentColor = False
+          ParentFont = False
+          ResetAfterPrint = True
+          Text = ''
+          Transparent = False
+        end
+        object RLLabel11: TRLLabel
+          Left = 2
+          Top = 45
+          Width = 121
+          Height = 16
+          Caption = 'Total Geral(Bruto):'
+          Transparent = False
+        end
+        object RLDBResult4: TRLDBResult
+          Left = 128
+          Top = 45
+          Width = 179
+          Height = 16
+          DataField = 'ABA_VALOR_BRUTO'
+          DataSource = DataSource1
+          DisplayMask = 'R$#,##0.00'
+          Info = riSum
+          ResetAfterPrint = True
+          Text = ''
+          Transparent = False
+        end
+        object RLLabel12: TRLLabel
+          Left = 5
+          Top = 11
+          Width = 56
+          Height = 16
+          Caption = 'Resumo:'
+          Transparent = False
+        end
+      end
+    end
   end
   object FDQuery1: TFDQuery
     Active = True
     OnCalcFields = FDQuery1CalcFields
-    Connection = frmDataModule.FDConnection1
+    Connection = frmFormPrincipal.FDConnection1
     SQL.Strings = (
       'select'
       'ABA_CODIGO,'
@@ -367,6 +503,11 @@ object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
     object FDQuery1ABA_VALOR_LIQUIDO: TSingleField
       FieldName = 'ABA_VALOR_LIQUIDO'
       Origin = 'ABA_VALOR_LIQUIDO'
+    end
+    object FDQuery1DESCONTO: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'DESCONTO'
+      Calculated = True
     end
   end
   object DataSource1: TDataSource

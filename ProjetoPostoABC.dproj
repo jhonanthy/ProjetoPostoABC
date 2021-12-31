@@ -83,6 +83,8 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -98,17 +100,18 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="UnFormPrincipal.pas">
-            <Form>frmFormPrincipal</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="UnDataModule.pas">
-            <Form>frmDataModule</Form>
+        <DCCReference Include="UnFrmCadAbastecimento.pas">
+            <Form>frmCadAbastecimento</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnEnum.pas"/>
         <DCCReference Include="UnFrmRelatorioAbastecimento.pas">
             <Form>frmRelatorioAbastecimento</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UnAbastecimento.pas"/>
+        <DCCReference Include="UnFormPrincipal.pas">
+            <Form>frmPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
@@ -131,6 +134,10 @@
                 <Source>
                     <Source Name="MainSource">ProjetoPostoABC.dpr</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k270.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp270.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="Win32\Debug\ProjetoPostoABC.exe" Configuration="Debug" Class="ProjectOutput">

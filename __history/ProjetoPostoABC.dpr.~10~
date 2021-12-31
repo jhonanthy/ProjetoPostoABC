@@ -1,0 +1,20 @@
+program ProjetoPostoABC;
+uses
+  Vcl.Forms,
+  UnFrmCadAbastecimento in 'UnFrmCadAbastecimento.pas' {frmFormPrincipal},
+  UnEnum in 'UnEnum.pas',
+  UnFrmRelatorioAbastecimento in 'UnFrmRelatorioAbastecimento.pas' {frmRelatorioAbastecimento},
+  UnAbastecimento in 'UnAbastecimento.pas',
+  UnFormPrincipal in 'UnFormPrincipal.pas' {Form1},
+  UnDataModule in 'UnDataModule.pas' {frmDataModule};
+
+{$R *.res}
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmFormPrincipal, frmFormPrincipal);
+  Application.CreateForm(TfrmRelatorioAbastecimento, frmRelatorioAbastecimento);
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfrmDataModule, frmDataModule);
+  Application.Run;
+end.

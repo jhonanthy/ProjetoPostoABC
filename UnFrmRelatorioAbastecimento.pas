@@ -1,3 +1,12 @@
+{ Sistema de Abastecimento
+  Author Jhonanthy Almeida
+
+
+  --Relatorio Modelo 1 (Agrupado exibindo o dia, o tanque, a bomba e o valor)
+
+}
+
+
 unit UnFrmRelatorioAbastecimento;
 
 interface
@@ -28,8 +37,6 @@ type
     FDQuery1ABA_TIPOCOMBUSTIVEL: TStringField;
     FDQuery1ABA_BOMBA_UTILIZADA: TIntegerField;
     FDQuery1ABA_DATA: TDateField;
-    FDQuery1ABA_VALOR_BRUTO: TSingleField;
-    FDQuery1ABA_VALOR_LIQUIDO: TSingleField;
     RLBand5: TRLBand;
     RLImage1: TRLImage;
     RLPanel1: TRLPanel;
@@ -44,6 +51,22 @@ type
     RLBand6: TRLBand;
     RLLabel5: TRLLabel;
     RLDBText5: TRLDBText;
+    FDQuery1ABA_VALOR_BRUTO: TSingleField;
+    FDQuery1ABA_VALOR_LIQUIDO: TSingleField;
+    RLBand7: TRLBand;
+    FDQuery1DESCONTO: TCurrencyField;
+    RLDBText2: TRLDBText;
+    RLLabel8: TRLLabel;
+    RLDBText6: TRLDBText;
+    RLLabel9: TRLLabel;
+    RLPanel3: TRLPanel;
+    RLLabel7: TRLLabel;
+    RLDBResult2: TRLDBResult;
+    RLLabel10: TRLLabel;
+    RLDBResult3: TRLDBResult;
+    RLLabel11: TRLLabel;
+    RLDBResult4: TRLDBResult;
+    RLLabel12: TRLLabel;
     procedure FDQuery1CalcFields(DataSet: TDataSet);
   private
     { Private declarations }
@@ -59,7 +82,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnDataModule;
+uses UnDataModule, UnFormPrincipal;
 
 { TForm1 }
 
@@ -74,6 +97,7 @@ uses UnDataModule;
 
 procedure TfrmRelatorioAbastecimento.FDQuery1CalcFields(DataSet: TDataSet);
 begin
+FDQuery1DESCONTO.AsCurrency:= (FDQuery1ABA_VALOR_BRUTO.AsCurrency * 13)/100;
 // FDQuery1ABA_VALOR.ascurrency:=FDQuery1ABA_VALOR_LIQUIDO.AsCurrency;
 end;
 

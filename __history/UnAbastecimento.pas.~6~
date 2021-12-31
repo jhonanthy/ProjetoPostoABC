@@ -1,0 +1,155 @@
+unit UnAbastecimento;
+
+interface
+
+uses UnEnum;
+type
+TAbastecimento = class
+
+private
+codigo:               Integer;
+BombaUtilizada:       Integer;
+Data:                 TDateTime;
+TipoCombustivel:      String;
+PrecoCombustivel:     Currency;
+QtdLitros:            Currency;
+ValorBruto:           Currency;
+ValorLiquido:         Currency;
+
+public
+function getcodigo():Integer;
+function getBombaUtilizada():Integer;
+function getData():TDateTime;
+function getTipoCombustivel(const Value:TTipoCombustivel):String;
+function getPrecoCombustivel():Currency;
+function getQtdLitros():Currency;
+function getValorBruto():Currency;
+function getValorLiquido():Currency;
+
+procedure setcodigo(const Value:integer);
+procedure setBombaUtilizada(const Value:integer);
+procedure setData(const Value:TDateTime);
+procedure setTipoCombustivel(const Value:String);
+procedure setPrecoCombustivel(Const Value:Currency);
+procedure setQtdLitros(const Value:Currency);
+procedure setValorBruto(const Value:Currency);
+procedure setValorLiquido(const Value:Currency);
+
+function TipoCombustivelToStr(const Value:TTipoCombustivel):string;
+//function IntToTipoCombustivel(const Value:Integer):TTipoCombustivel;
+
+
+
+end;
+
+
+implementation
+
+
+
+{ TAbastecimento }
+
+
+function TAbastecimento.getBombaUtilizada: Integer;
+begin
+ result:= self.BombaUtilizada;
+end;
+
+function TAbastecimento.getcodigo: Integer;
+begin
+ result:= self.codigo;
+end;
+
+function TAbastecimento.getData: TDateTime;
+begin
+ result:= self.Data;
+end;
+
+function TAbastecimento.getPrecoCombustivel: Currency;
+begin
+result:= self.PrecoCombustivel;
+end;
+
+function TAbastecimento.getQtdLitros: Currency;
+begin
+result:= self.QtdLitros;
+end;
+
+function TAbastecimento.getTipoCombustivel(const Value:TTipoCombustivel):String;
+begin
+  Result:= TipoCombustivelToStr(Value);
+end;
+
+function TAbastecimento.getValorBruto: Currency;
+begin
+  result:= self.ValorBruto;
+end;
+
+function TAbastecimento.getValorLiquido: Currency;
+begin
+  result:= self.ValorLiquido;
+end;
+
+{function TAbastecimento.IntToTipoCombustivel(
+  const Value: Integer): TTipoCombustivel;
+begin
+  case Value of
+
+  end;
+end^}
+
+procedure TAbastecimento.setBombaUtilizada(const Value: integer);
+begin
+self.BombaUtilizada:=value;
+end;
+
+procedure TAbastecimento.setcodigo(const Value: integer);
+begin
+  self.codigo:=Value;
+end;
+
+procedure TAbastecimento.setData(const Value: TDateTime);
+begin
+ self.Data:=Value;
+end;
+
+procedure TAbastecimento.setPrecoCombustivel(const Value: Currency);
+begin
+  self.PrecoCombustivel:=Value;
+end;
+
+procedure TAbastecimento.setQtdLitros(const Value: Currency);
+begin
+  self.QtdLitros:=Value;
+end;
+
+procedure TAbastecimento.setTipoCombustivel(const Value: String);
+begin
+  self.TipoCombustivel:=Value;
+end;
+
+procedure TAbastecimento.setValorBruto(const Value: Currency);
+begin
+ self.ValorBruto:=Value;
+end;
+
+procedure TAbastecimento.setValorLiquido(const Value: Currency);
+begin
+ self.ValorLiquido:=Value;
+end;
+
+function TAbastecimento.TipoCombustivelToStr(
+  const Value: TTipoCombustivel): string;
+begin
+  case Value of
+   tcNaoSelecionado:
+    Result:='';
+   tcGasolina:
+    Result:='Gasolina';
+   tcDiesel:
+    Result:='Diesel';
+
+  end;
+end;
+
+end.
