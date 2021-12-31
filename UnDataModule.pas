@@ -13,25 +13,25 @@ type
     FDConnection1: TFDConnection;
     FDTransaction1: TFDTransaction;
     FDQuery1: TFDQuery;
-    FDQuery1ABA_CODIGO: TIntegerField;
-    FDQuery1ABA_TIPOCOMBUSTIVEL: TIntegerField;
-    FDQuery1ABA_BOMBA_UTILIZADA: TIntegerField;
-    FDQuery1ABA_QTDLITROS: TFMTBCDField;
-    FDQuery1ABA_DATA: TDateField;
-    FDQuery1ABA_VALOR_BRUTO: TFMTBCDField;
-    FDQuery1ABA_VALOR_LIQUIDO: TFMTBCDField;
     FDTable1: TFDTable;
     FDQueryConsulta: TFDQuery;
-    FDQuery1ABA_PRECO_COMBUSTIVEL: TFMTBCDField;
     FDTable1ABA_CODIGO: TIntegerField;
     FDTable1ABA_BOMBA_UTILIZADA: TIntegerField;
-    FDTable1ABA_QTDLITROS: TFMTBCDField;
     FDTable1ABA_DATA: TDateField;
-    FDTable1ABA_VALOR_BRUTO: TFMTBCDField;
-    FDTable1ABA_VALOR_LIQUIDO: TFMTBCDField;
-    FDTable1ABA_PRECO_COMBUSTIVEL: TFMTBCDField;
     FDTable1DESCONTO: TCurrencyField;
     FDTable1ABA_TIPOCOMBUSTIVEL: TStringField;
+    FDQuery1ABA_CODIGO: TIntegerField;
+    FDQuery1ABA_TIPOCOMBUSTIVEL: TStringField;
+    FDQuery1ABA_BOMBA_UTILIZADA: TIntegerField;
+    FDQuery1ABA_QTDLITROS: TSingleField;
+    FDQuery1ABA_DATA: TDateField;
+    FDQuery1ABA_PRECO_COMBUSTIVEL: TSingleField;
+    FDQuery1ABA_VALOR_BRUTO: TSingleField;
+    FDQuery1ABA_VALOR_LIQUIDO: TSingleField;
+    FDTable1ABA_QTDLITROS: TSingleField;
+    FDTable1ABA_PRECO_COMBUSTIVEL: TSingleField;
+    FDTable1ABA_VALOR_BRUTO: TSingleField;
+    FDTable1ABA_VALOR_LIQUIDO: TSingleField;
   private
     { Private declarations }
   public

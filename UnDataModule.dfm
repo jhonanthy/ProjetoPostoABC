@@ -22,6 +22,7 @@ object frmDataModule: TfrmDataModule
       'DriverID=FB')
     Connected = True
     LoginPrompt = False
+    Transaction = FDTransaction1
     Left = 16
     Top = 8
   end
@@ -42,45 +43,37 @@ object frmDataModule: TfrmDataModule
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-    object FDQuery1ABA_TIPOCOMBUSTIVEL: TIntegerField
+    object FDQuery1ABA_TIPOCOMBUSTIVEL: TStringField
       FieldName = 'ABA_TIPOCOMBUSTIVEL'
       Origin = 'ABA_TIPOCOMBUSTIVEL'
+      Size = 30
     end
     object FDQuery1ABA_BOMBA_UTILIZADA: TIntegerField
       FieldName = 'ABA_BOMBA_UTILIZADA'
       Origin = 'ABA_BOMBA_UTILIZADA'
     end
-    object FDQuery1ABA_QTDLITROS: TFMTBCDField
+    object FDQuery1ABA_QTDLITROS: TSingleField
       FieldName = 'ABA_QTDLITROS'
       Origin = 'ABA_QTDLITROS'
-      Precision = 18
-      Size = 2
     end
     object FDQuery1ABA_DATA: TDateField
       FieldName = 'ABA_DATA'
       Origin = 'ABA_DATA'
     end
-    object FDQuery1ABA_VALOR_BRUTO: TFMTBCDField
-      FieldName = 'ABA_VALOR_BRUTO'
-      Origin = 'ABA_VALOR_BRUTO'
-      Precision = 18
-      Size = 2
-    end
-    object FDQuery1ABA_VALOR_LIQUIDO: TFMTBCDField
-      FieldName = 'ABA_VALOR_LIQUIDO'
-      Origin = 'ABA_VALOR_LIQUIDO'
-      Precision = 18
-      Size = 2
-    end
-    object FDQuery1ABA_PRECO_COMBUSTIVEL: TFMTBCDField
+    object FDQuery1ABA_PRECO_COMBUSTIVEL: TSingleField
       FieldName = 'ABA_PRECO_COMBUSTIVEL'
       Origin = 'ABA_PRECO_COMBUSTIVEL'
-      Precision = 18
-      Size = 2
+    end
+    object FDQuery1ABA_VALOR_BRUTO: TSingleField
+      FieldName = 'ABA_VALOR_BRUTO'
+      Origin = 'ABA_VALOR_BRUTO'
+    end
+    object FDQuery1ABA_VALOR_LIQUIDO: TSingleField
+      FieldName = 'ABA_VALOR_LIQUIDO'
+      Origin = 'ABA_VALOR_LIQUIDO'
     end
   end
   object FDTable1: TFDTable
-    Active = True
     IndexFieldNames = 'ABA_CODIGO'
     Connection = FDConnection1
     UpdateOptions.UpdateTableName = 'ABASTECIMENTO'
@@ -94,32 +87,8 @@ object frmDataModule: TfrmDataModule
     object FDTable1ABA_BOMBA_UTILIZADA: TIntegerField
       FieldName = 'ABA_BOMBA_UTILIZADA'
     end
-    object FDTable1ABA_QTDLITROS: TFMTBCDField
-      FieldName = 'ABA_QTDLITROS'
-      Precision = 18
-      Size = 2
-    end
     object FDTable1ABA_DATA: TDateField
       FieldName = 'ABA_DATA'
-    end
-    object FDTable1ABA_VALOR_BRUTO: TFMTBCDField
-      FieldName = 'ABA_VALOR_BRUTO'
-      currency = True
-      Precision = 18
-      Size = 2
-    end
-    object FDTable1ABA_VALOR_LIQUIDO: TFMTBCDField
-      FieldName = 'ABA_VALOR_LIQUIDO'
-      currency = True
-      Precision = 18
-      Size = 2
-    end
-    object FDTable1ABA_PRECO_COMBUSTIVEL: TFMTBCDField
-      FieldName = 'ABA_PRECO_COMBUSTIVEL'
-      Origin = 'ABA_PRECO_COMBUSTIVEL'
-      currency = True
-      Precision = 18
-      Size = 2
     end
     object FDTable1DESCONTO: TCurrencyField
       FieldKind = fkCalculated
@@ -130,6 +99,22 @@ object frmDataModule: TfrmDataModule
       FieldName = 'ABA_TIPOCOMBUSTIVEL'
       Origin = 'ABA_TIPOCOMBUSTIVEL'
       Size = 30
+    end
+    object FDTable1ABA_QTDLITROS: TSingleField
+      FieldName = 'ABA_QTDLITROS'
+      Origin = 'ABA_QTDLITROS'
+    end
+    object FDTable1ABA_PRECO_COMBUSTIVEL: TSingleField
+      FieldName = 'ABA_PRECO_COMBUSTIVEL'
+      Origin = 'ABA_PRECO_COMBUSTIVEL'
+    end
+    object FDTable1ABA_VALOR_BRUTO: TSingleField
+      FieldName = 'ABA_VALOR_BRUTO'
+      Origin = 'ABA_VALOR_BRUTO'
+    end
+    object FDTable1ABA_VALOR_LIQUIDO: TSingleField
+      FieldName = 'ABA_VALOR_LIQUIDO'
+      Origin = 'ABA_VALOR_LIQUIDO'
     end
   end
   object FDQueryConsulta: TFDQuery

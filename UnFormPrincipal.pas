@@ -4,7 +4,12 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Buttons,
   Vcl.StdCtrls, Data.DB, Datasnap.DBClient, Vcl.Mask, Vcl.DBCtrls,
-  IBX.IBCustomDataSet,IBX.IBQuery, Vcl.Grids, Vcl.DBGrids,UnEnum;
+  IBX.IBCustomDataSet,IBX.IBQuery, Vcl.Grids, Vcl.DBGrids,UnEnum,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
+  FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait;
 type
   TfrmFormPrincipal = class(TForm)
     Panel1: TPanel;
@@ -12,7 +17,6 @@ type
     TabSheet1: TTabSheet;
     pnlCadastroAbastecimento: TPanel;
     pnlTop: TPanel;
-    Sb_Limpar: TSpeedButton;
     GroupBox1: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
@@ -31,7 +35,6 @@ type
     lbConsulta: TLabel;
     Label4: TLabel;
     DataSource1: TDataSource;
-    DBNavigator1: TDBNavigator;
     Label5: TLabel;
     DBEdtLitro: TDBEdit;
     Label6: TLabel;
@@ -39,16 +42,42 @@ type
     edtCodigo: TDBEdit;
     DBEdtDesconto: TDBEdit;
     DsConsulta: TDataSource;
+    FDTable1: TFDTable;
+    FDTable1ABA_CODIGO: TIntegerField;
+    FDTable1ABA_BOMBA_UTILIZADA: TIntegerField;
+    FDTable1ABA_DATA: TDateField;
+    FDTable1DESCONTO: TCurrencyField;
+    FDTable1ABA_TIPOCOMBUSTIVEL: TStringField;
+    FDTable1ABA_QTDLITROS: TSingleField;
+    FDTable1ABA_PRECO_COMBUSTIVEL: TSingleField;
+    FDTable1ABA_VALOR_BRUTO: TSingleField;
+    FDTable1ABA_VALOR_LIQUIDO: TSingleField;
+    FDConnection1: TFDConnection;
+    FDTransaction1: TFDTransaction;
+    FDQueryConsulta: TFDQuery;
+    Panel3: TPanel;
+    Imprimir: TSpeedButton;
+    Sb_Limpar: TSpeedButton;
+    SbCancelar: TSpeedButton;
+    Sb_Excluir: TSpeedButton;
+    SbGravar: TSpeedButton;
+    SbAlterar: TSpeedButton;
+    SbNovo: TSpeedButton;
     procedure FormCreate(Sender: TObject);
-    procedure Sb_LimparClick(Sender: TObject);
     procedure DBNavigator1BeforeAction(Sender: TObject; Button: TNavigateBtn);
     procedure FormShow(Sender: TObject);
-    procedure DBNavigator1Click(Sender: TObject; Button: TNavigateBtn);
     procedure DBEdtLitroExit(Sender: TObject);
     procedure DBEdtValAbastecidoChange(Sender: TObject);
     procedure edtConsultaChange(Sender: TObject);
     procedure cbPesquisaChange(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ImprimirClick(Sender: TObject);
+    procedure SbGravarClick(Sender: TObject);
+    procedure SbAlterarClick(Sender: TObject);
+    procedure SbNovoClick(Sender: TObject);
+    procedure Sb_ExcluirClick(Sender: TObject);
+    procedure SbCancelarClick(Sender: TObject);
   private
     function GetTipoCombustivel:TTipoCombustivel;
     procedure SetTipoCombustivel(const Value: TTipoCombustivel);
@@ -58,106 +87,65 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure CarregaDados;
-    function ConsultaChave:string;
+    procedure CarregaDados(Value:string);
     procedure GravandoDados;
     procedure LimpaComponentes;
     procedure ValidaCampos;
+
     property TipoCombustivel: TTipoCombustivel read GetTipoCombustivel write SetTipoCombustivel;
     property TipoOperacao: TTipoOperacao read GetTipoOperacao write setTipoOperacao;
   end;
 var
   frmFormPrincipal: TfrmFormPrincipal;
+  Teste:string;
 implementation
 {$R *.dfm}
-uses UnDataModule;
-procedure TfrmFormPrincipal.CarregaDados;
+uses UnDataModule, UnFrmRelatorioAbastecimento;
+procedure TfrmFormPrincipal.CarregaDados(Value:string);
+var
+strComando:string;
 begin
-{with frmDataModule.IbqConsulta do
-try
-  Close;
-  sql.Clear;
-  sql.Add('select * from ABASTECIMENTO where ABA_CODIGO=:ID');
-  ParamByName('ID').Value:= edtCodigo.Text;
-  Open;
-   TipoCombustivel:= FieldByName('ABA_TIPOCOMBUSTIVEL').AsInteger;
-finally
-  Free;
-end;}
+    with FDTable1 do
+    begin
+      Close;
+      sql.Clear;
+      strComando := '  select * from ABASTECIMENTO ' +
+        '  where ABA_CODIGO in (' + StringReplace(Value, '*',
+        'ABA_CODIGO', []) + ')';
 
+      sql.Add(strComando);
+      Open;
+      Locate('ABA_CODIGO', frmDataModule.FDQueryConsulta.FieldByName('ABA_CODIGO').AsString, []);
+    end;
 end;
+
 procedure TfrmFormPrincipal.cbPesquisaChange(Sender: TObject);
 var
 Text:string;
 begin
 Text:=trim(edtConsulta.text);
   if cbPesquisa.ItemIndex = 6 then
-    edtConsulta.Text:=' '
-  else if not Text.isEmpty then
+  begin
+    edtConsulta.Text:=' ';
+    edtConsulta.Enabled:=false;
+  end
+  else
+   edtConsulta.Enabled:=true;
+
+   if not Text.isEmpty then
     edtConsulta.Clear;
 
   if edtConsulta.CanFocus then
     edtConsulta.SetFocus;
 end;
 
-function TfrmFormPrincipal.ConsultaChave: string;
-var
-i,NovoID:integer;
-strComando:string;
-
-begin
-     frmDataModule.FDQuery1.Close;
-     frmDataModule.FDQuery1.Open;
-  if frmDataModule.FDQuery1.RecordCount = 0 then     // se não houver Registro
-  begin
-      strComando:='Select * from ABASTECIMENTO where ABA_CODIGO = 0'
-  end
-  else  // se existe Registro
-  strComando:='Select max (ABA_CODIGO) as UltimoRegistro from ABASTECIMENTO';
-
-
-          with  frmDataModule do
-          begin
-          FDQueryConsulta.close;
-             FDQueryConsulta.SQL.Clear;
-             FDQueryConsulta.SQL.Add(strComando);
-             FDQueryConsulta.open;
-//              if FDQueryConsulta.IsEmpty then
-//              NovoID:=1
-//              else
-              NovoID:=(FDQueryConsulta.FieldByName('UltimoRegistro').AsInteger)+1;
-              for i:=1 to 10 do
-                try
-                  with frmDataModule.FDTable1  do
-                  begin
-
-                  Insert;
-                  {Inserindo Codigo do Abastecimento}
-//                  FDTable1ABA_CODIGO.AsString:=inttostr(NovoID);
-                  FieldByName('ABA_CODIGO').AsString:=inttostr(NovoID);
-                  FieldByName('ABA_DATA').AsDateTime:= Date;
-                  {Colocando a data de Inserção no registro}
-//                  FDTable1ABA_DATA.AsDateTime:= Date;
-//
-//                  Post;
-//                  Edit;
-                  result:=inttostr(NovoID);
-                  break;
-                  end;
-                except
-                  NovoID:=NovoID+1;
-                  frmDataModule.FDTable1.Edit;
-                end;
-
-          end;
-end;
 
 procedure TfrmFormPrincipal.DBEdtLitroExit(Sender: TObject);
 begin
    //ValorBruto
 //   frmDataModule.FDTable1.Append;
  if TipoOperacao = toInsert then
-  frmDataModule.FDTable1ABA_VALOR_BRUTO.Value:= frmDataModule.FDTable1ABA_PRECO_COMBUSTIVEL.Value * frmDataModule.FDTable1ABA_QTDLITROS.Value;
+  FDTable1ABA_VALOR_BRUTO.Value:= FDTable1ABA_PRECO_COMBUSTIVEL.Value * FDTable1ABA_QTDLITROS.Value;
 end;
 
 procedure TfrmFormPrincipal.DBEdtValAbastecidoChange(Sender: TObject);
@@ -165,14 +153,15 @@ begin
 //frmDataModule.FDTable1.Append;
   if TipoOperacao = toInsert then
    begin
-   frmDataModule.FDTable1DESCONTO.AsCurrency:=frmDataModule.FDTable1ABA_VALOR_BRUTO.AsCurrency * 0.13;
+   FDTable1DESCONTO.AsCurrency :=FDTable1ABA_VALOR_BRUTO.AsCurrency * 0.13;
     // o total vai ser o valor liquido deduzindo o imposto
-    frmDataModule.FDTable1ABA_VALOR_LIQUIDO.Value:= frmDataModule.FDTable1ABA_VALOR_BRUTO.Value - frmDataModule.FDTable1DESCONTO.Value;
+    FDTable1ABA_VALOR_LIQUIDO.Value:= FDTable1ABA_VALOR_BRUTO.Value - FDTable1DESCONTO.Value;
    end;
 end;
 
 procedure TfrmFormPrincipal.DBGrid1DblClick(Sender: TObject);
 begin
+CarregaDados(Teste);
 PageControl1.ActivePage:=TabSheet1;
 end;
 
@@ -195,31 +184,18 @@ begin
   end;
 end;
 
-procedure TfrmFormPrincipal.DBNavigator1Click(Sender: TObject;
-  Button: TNavigateBtn);
-
-begin
- if Button =  nbInsert then
- begin
- LimpaComponentes;
-   TipoOperacao := toInsert;
-   frmDataModule.FDTable1.FieldByName('ABA_DATA').AsDateTime:=Date;
- end;
- if Button = nbPost then
-    begin
-    TipoOperacao := toSelect;
-//      GravandoDados;
-//      ValidaCampos;
-    end;
-
-end;
-
 procedure TfrmFormPrincipal.edtConsultaChange(Sender: TObject);
 var
 strComando:string;
 begin
+
 strComando:=' Select * from ABASTECIMENTO  ';
-  frmDataModule.FDQueryConsulta.Close;
+  FDQueryConsulta.Close;
+//FDTable1.Active:=false;
+//FDTable1.Close;
+ //verificar consulta quando pesquisa e apaga
+    if trim(edtConsulta.Text)='' then
+       strComando:= strComando + '  ';
     case cbPesquisa.ItemIndex of
      0 : // codigo do abastecimento
       begin
@@ -228,7 +204,9 @@ strComando:=' Select * from ABASTECIMENTO  ';
       end;
      1: //tipo de combustivel
        begin
-       strComando:= strComando + '  WHERE ABA_TIPOCOMBUSTIVEL like '+trim(edtConsulta.Text);
+       {strComando2 + ' and ( upper(TEN_ATENDENTE) LIKE ' +
+              quotedstr('%' + uppercase(strPesquisa) + '%');}
+       strComando:= strComando + '  WHERE upper(ABA_TIPOCOMBUSTIVEL) LIKE '+quotedstr('%'+ uppercase(edtConsulta.Text)+'%');
        strComando:= strComando +'  order by ABA_CODIGO Desc';
        end;
      2: // bomba utilizada
@@ -258,19 +236,32 @@ strComando:=' Select * from ABASTECIMENTO  ';
      end;
 
     end;
-frmDataModule.FDQueryConsulta.SQL.Clear;
-frmDataModule.FDQueryConsulta.SQL.Add(strComando);
-frmDataModule.FDQueryConsulta.open;
+Teste:=strComando;
+
+FDQueryConsulta.SQL.Clear;
+FDQueryConsulta.SQL.Add(strComando);
+FDQueryConsulta.open;
 //caso não encontre mostra a mensagem
-if frmDataModule.FDQueryConsulta.IsEmpty then
+//if frmDataModule.FDQueryConsulta.IsEmpty then
+if  FDQueryConsulta.IsEmpty then
 application.MessageBox('Consulta não encontrada na Base!','Informação',MB_OK+MB_ICONINFORMATION);
 
+end;
+
+procedure TfrmFormPrincipal.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+FDTable1.Cancel;
+//frmDataModule.FDConnection1.RollbackRetaining;
+FDTransaction1.RollbackRetaining;
 end;
 
 procedure TfrmFormPrincipal.FormCreate(Sender: TObject);
 begin
 //CarregaDados;
-//frmDataModule.FDTransaction1.StartTransaction;
+FDTransaction1.StartTransaction;
+FDTable1.Open;
+
 
     CbBombaUtilizada.Enabled:=true;
     CbBombaUtilizada.Items.Clear;
@@ -284,7 +275,7 @@ end;
 
 procedure TfrmFormPrincipal.FormShow(Sender: TObject);
 begin
-
+FDTable1.Open;
 LimpaComponentes;
 edtCodigo.Enabled:=false;
 edtData.Enabled:=false;
@@ -324,13 +315,16 @@ begin
          1,3: TipoCombustivel:='Gasolina';
          2,4: TipoCombustivel:='Diesel';
        end;
-//       frmDataModule.FDTable1.Edit;
 
-        frmDataModule.FDTable1.FieldByName('ABA_BOMBA_UTILIZADA').AsInteger:=CbBombaUtilizada.ItemIndex;
-       frmDataModule.FDTable1.FieldByName('ABA_TIPOCOMBUSTIVEL').AsString:= TipoCombustivel;
-//       frmDataModule.FDTable1.Post;
+       FDTable1.FieldByName('ABA_BOMBA_UTILIZADA').AsInteger:=CbBombaUtilizada.ItemIndex;
+       FDTable1.FieldByName('ABA_TIPOCOMBUSTIVEL').AsString:= TipoCombustivel;
 
 
+end;
+
+procedure TfrmFormPrincipal.ImprimirClick(Sender: TObject);
+begin
+ frmRelatorioAbastecimento.RLReport1.Preview;
 end;
 
 procedure TfrmFormPrincipal.LimpaComponentes;
@@ -352,47 +346,69 @@ begin
 
 end;
 
-{procedure TfrmFormPrincipal.Sb_ExcluirClick(Sender: TObject);
+
+procedure TfrmFormPrincipal.SbAlterarClick(Sender: TObject);
+begin
+  FDTable1.Edit;
+end;
+
+procedure TfrmFormPrincipal.SbCancelarClick(Sender: TObject);
+begin
+FDTable1.Cancel;
+FDTransaction1.RollbackRetaining;
+end;
+
+procedure TfrmFormPrincipal.SbGravarClick(Sender: TObject);
+begin
+ TipoOperacao := toSelect;
+  GravandoDados;
+  ValidaCampos;
+try
+FDTable1.Post;
+FDTransaction1.CommitRetaining;
+except
+application.MessageBox('Não foi possivel salvar o registro','ERRO',MB_OK+MB_ICONEXCLAMATION);
+end;
+application.MessageBox('Registro salvo com Sucesso!','Informação',MB_OK+MB_ICONINFORMATION);
+end;
+
+procedure TfrmFormPrincipal.SbNovoClick(Sender: TObject);
+begin
+// insere
+LimpaComponentes;
+TipoOperacao := toInsert;
+FDTable1.append;
+FDTable1.FieldByName('ABA_DATA').AsDateTime:=Date;
+end;
+
+procedure TfrmFormPrincipal.Sb_ExcluirClick(Sender: TObject);
 var
-mensagem:string;
 confExcl:integer;
 begin
-beep;
+//mensagem perguntando se realmente quer deletar
+ beep;
   confExcl:= Application.MessageBox('Confirma a exclusão deste registro?', 'Atenção', MB_YesNo+mb_DefButton2+mb_IconQuestion);
   if confExcl = IDYes then
- begin
-//  IBDataSet1.Delete;
-//  frmDataModule.trans.CommitRetaining;
-  mensagem:= 'O registro foi excluido com sucesso.  ';
-  Application.MessageBox(PChar(mensagem), 'Informação', MB_Ok+mb_IconInformation);
- end
- else if confExcl = IDNO then
- begin
-//   frmDataModule.trans.RollbackRetaining;
-   mensagem:= 'A exclusão deste registro foi abortada.  ';
-   Application.MessageBox(PChar(mensagem), 'Informação', MB_Ok+mb_IconInformation);
- end;
-end;}
-{procedure TfrmFormPrincipal.sb_gravarClick(Sender: TObject);
-var
-mensagem:string;
-begin
-//IBDataSet1.Post;
-//frmDataModule.Trans.CommitRetaining;
-Application.MessageBox(PChar(mensagem), 'Informação', MB_Ok+mb_IconInformation);
-end;}
-{procedure TfrmFormPrincipal.sb_InserirClick(Sender: TObject);
-var
-strComando:string;
-begin
-// IBDataSet1.Insert;
-// ClientDataSet1.Insert
-end;}
-procedure TfrmFormPrincipal.Sb_LimparClick(Sender: TObject);
-begin
-//limpar cada componente ;
-LimpaComponentes ;
+  begin
+  try
+  FDTable1.Delete;
+  FDTransaction1.CommitRetaining;
+  except
+   Application.MessageBox('Não foi Possivel Deletar o registro!','ERRO',MB_OK+MB_ICONEXCLAMATION);
+   exit;
+  end;
+   Application.MessageBox('Registro Excluido com Sucesso!','Informação',MB_OK+MB_ICONINFORMATION);
+
+  end
+  else if confExcl = IDNO then
+  begin
+   FDTransaction1.RollbackRetaining;
+   Application.MessageBox('A Exclusão do registro foi abortada!','Informação',MB_OK+MB_ICONINFORMATION);
+   exit;
+  end;
+
 end;
+
 procedure TfrmFormPrincipal.Sb_SairClick(Sender: TObject);
 begin
 Close;
@@ -408,7 +424,6 @@ end;
 
 procedure TfrmFormPrincipal.ValidaCampos;
 begin
-  with frmDataModule do
   begin
     if FDTable1ABA_PRECO_COMBUSTIVEL.IsNull then
     begin
@@ -430,7 +445,7 @@ begin
   end;
 
   case CbBombaUtilizada.ItemIndex of
-        -1,2:
+        -1,0:
          begin
            application.MessageBox('A Bomba de abastecimento não foi selecionada!'
             ,'Atenção',MB_OK+MB_ICONWARNING);

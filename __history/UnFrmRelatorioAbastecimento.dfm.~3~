@@ -1,0 +1,195 @@
+object frmRelatorioAbastecimento: TfrmRelatorioAbastecimento
+  Left = 0
+  Top = 0
+  Caption = 'frmRelatorioAbastecimento'
+  ClientHeight = 480
+  ClientWidth = 771
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object RLReport1: TRLReport
+    Left = 0
+    Top = -8
+    Width = 794
+    Height = 1123
+    DataSource = DataSource1
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Arial'
+    Font.Style = []
+    object RLGroup1: TRLGroup
+      Left = 38
+      Top = 38
+      Width = 718
+      Height = 355
+      DataFields = 'ABA_DATA'
+      object RLBand2: TRLBand
+        Left = 0
+        Top = 0
+        Width = 718
+        Height = 54
+        BandType = btHeader
+        object RLLabel1: TRLLabel
+          Left = 56
+          Top = 24
+          Width = 54
+          Height = 16
+          Caption = 'testando'
+        end
+        object RLDBText3: TRLDBText
+          Left = 192
+          Top = 24
+          Width = 72
+          Height = 16
+          DataField = 'ABA_DATA'
+          DataSource = DataSource1
+          Text = ''
+        end
+      end
+      object RLGroup2: TRLGroup
+        Left = 0
+        Top = 54
+        Width = 718
+        Height = 139
+        DataFields = 'ABA_TIPOCOMBUSTIVEL'
+        object RLBand1: TRLBand
+          Left = 0
+          Top = 33
+          Width = 718
+          Height = 51
+          object RLDBText1: TRLDBText
+            Left = 160
+            Top = 10
+            Width = 140
+            Height = 16
+            DataField = 'ABA_VALOR_LIQUIDO'
+            DataSource = DataSource1
+            Text = ''
+          end
+          object RLDBText2: TRLDBText
+            Left = 16
+            Top = 10
+            Width = 89
+            Height = 16
+            DataField = 'ABA_CODIGO'
+            DataSource = DataSource1
+            Text = ''
+          end
+        end
+        object RLBand3: TRLBand
+          Left = 0
+          Top = 0
+          Width = 718
+          Height = 33
+          BandType = btHeader
+          object RLDBText4: TRLDBText
+            Left = 192
+            Top = 17
+            Width = 159
+            Height = 16
+            DataField = 'ABA_TIPOCOMBUSTIVEL'
+            DataSource = DataSource1
+            Text = ''
+          end
+        end
+      end
+      object RLBand4: TRLBand
+        Left = 0
+        Top = 193
+        Width = 718
+        Height = 96
+        BandType = btFooter
+        object RLLabel2: TRLLabel
+          Left = 136
+          Top = 48
+          Width = 53
+          Height = 16
+          Caption = 'qualquer'
+        end
+        object RLDBResult1: TRLDBResult
+          Left = 232
+          Top = 48
+          Width = 128
+          Height = 16
+          DataField = 'ABA_CODIGO'
+          DataSource = DataSource1
+          DisplayMask = 'R$#,##0.00'
+          Info = riSum
+          Text = ''
+        end
+      end
+    end
+  end
+  object FDQuery1: TFDQuery
+    Active = True
+    OnCalcFields = FDQuery1CalcFields
+    Connection = frmDataModule.FDConnection1
+    SQL.Strings = (
+      'select'
+      'ABA_CODIGO,'
+      'ABA_TIPOCOMBUSTIVEL,'
+      'ABA_BOMBA_UTILIZADA,'
+      'ABA_DATA,'
+      'ABA_VALOR_BRUTO,'
+      'ABA_VALOR_LIQUIDO'
+      'FROM ABASTECIMENTO'
+      'order by'
+      'ABA_DATA,'
+      'ABA_TIPOCOMBUSTIVEL,'
+      'ABA_BOMBA_UTILIZADA'
+      ''
+      ''
+      ''
+      '')
+    Left = 400
+    Top = 264
+    object FDQuery1ABA_CODIGO: TIntegerField
+      FieldName = 'ABA_CODIGO'
+      Origin = 'ABA_CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object FDQuery1ABA_TIPOCOMBUSTIVEL: TStringField
+      FieldName = 'ABA_TIPOCOMBUSTIVEL'
+      Origin = 'ABA_TIPOCOMBUSTIVEL'
+      Size = 30
+    end
+    object FDQuery1ABA_BOMBA_UTILIZADA: TIntegerField
+      FieldName = 'ABA_BOMBA_UTILIZADA'
+      Origin = 'ABA_BOMBA_UTILIZADA'
+    end
+    object FDQuery1ABA_DATA: TDateField
+      FieldName = 'ABA_DATA'
+      Origin = 'ABA_DATA'
+    end
+    object FDQuery1ABA_VALOR_BRUTO: TFMTBCDField
+      FieldName = 'ABA_VALOR_BRUTO'
+      Origin = 'ABA_VALOR_BRUTO'
+      Precision = 18
+      Size = 2
+    end
+    object FDQuery1ABA_VALOR_LIQUIDO: TFMTBCDField
+      FieldName = 'ABA_VALOR_LIQUIDO'
+      Origin = 'ABA_VALOR_LIQUIDO'
+      Precision = 18
+      Size = 2
+    end
+    object FDQuery1ABA_VALOR: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'ABA_VALOR'
+      Calculated = True
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = FDQuery1
+    Left = 464
+    Top = 264
+  end
+end
