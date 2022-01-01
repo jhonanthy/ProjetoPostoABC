@@ -98,7 +98,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure CarregaDados(Value:string);
+    procedure CarregaDados(Value:integer);
     procedure GravandoDados;
     procedure LimpaComponentes;
     function ValidaCampos:boolean;
@@ -112,7 +112,7 @@ var
 implementation
 {$R *.dfm}
 uses  UnFrmRelatorioAbastecimento, UnAbastecimento, UnConfigRelatorios;
-procedure TfrmCadAbastecimento.CarregaDados(Value:string);
+procedure TfrmCadAbastecimento.CarregaDados(Value:integer);
 var
 strComando:string;
 begin
@@ -123,7 +123,7 @@ begin
       Close;
       sql.Clear;
       strComando := '  select * from ABASTECIMENTO ' +
-        '  where ABA_CODIGO in (' + StringReplace(Value, '*',
+        '  where ABA_CODIGO in (' + StringReplace(inttostr(Value), '*',
         'ABA_CODIGO', []) + ')';
 
       sql.Add(strComando);
@@ -132,7 +132,7 @@ begin
       CbBombaUtilizada.ItemIndex:= FieldByName('ABA_BOMBA_UTILIZADA').AsInteger
     end;
     finally
-      Free;
+
     end;
 end;
 
@@ -178,7 +178,7 @@ end;
 
 procedure TfrmCadAbastecimento.DBGrid1DblClick(Sender: TObject);
 begin
-CarregaDados(ConsultaSQL); //carrega dados na tela principal do cadastro
+CarregaDados(FDQueryConsultaABA_CODIGO.AsInteger); //carrega dados na tela principal do cadastro
 PageControl1.ActivePage:=TabSheet1;
 end;
 
@@ -255,7 +255,6 @@ FDQueryConsulta.SQL.Add(strComando);
 FDQueryConsulta.open;
 if  FDQueryConsulta.IsEmpty then
 application.MessageBox('Consulta não encontrada na Base!','Informação',MB_OK+MB_ICONINFORMATION);
-//  FDQueryConsulta.Free;
 end;
 
 procedure TfrmCadAbastecimento.FDQueryConsultaCalcFields(DataSet: TDataSet);

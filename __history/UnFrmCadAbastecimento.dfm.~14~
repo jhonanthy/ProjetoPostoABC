@@ -26,18 +26,14 @@ object frmCadAbastecimento: TfrmCadAbastecimento
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 872
-    ExplicitHeight = 368
     object PageControl1: TPageControl
       Left = 0
       Top = 0
       Width = 882
       Height = 489
-      ActivePage = TabSheet2
+      ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 872
-      ExplicitHeight = 479
       object TabSheet1: TTabSheet
         Caption = 'Ficha'
         object pnlCadastroAbastecimento: TPanel
@@ -47,8 +43,6 @@ object frmCadAbastecimento: TfrmCadAbastecimento
           Height = 461
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 864
-          ExplicitHeight = 340
           object pnlTop: TPanel
             Left = 1
             Top = 1
@@ -58,7 +52,6 @@ object frmCadAbastecimento: TfrmCadAbastecimento
             BevelOuter = bvNone
             ParentBackground = False
             TabOrder = 0
-            ExplicitWidth = 862
             object Panel3: TPanel
               Left = 346
               Top = 0
@@ -68,7 +61,6 @@ object frmCadAbastecimento: TfrmCadAbastecimento
               BevelOuter = bvNone
               Caption = 'Panel3'
               TabOrder = 0
-              ExplicitLeft = 336
               DesignSize = (
                 526
                 41)
@@ -550,8 +542,6 @@ object frmCadAbastecimento: TfrmCadAbastecimento
             Align = alClient
             Caption = 'Abastecimento'
             TabOrder = 1
-            ExplicitWidth = 862
-            ExplicitHeight = 297
             object Label1: TLabel
               Left = 4
               Top = 22
@@ -704,81 +694,6 @@ object frmCadAbastecimento: TfrmCadAbastecimento
       object TabSheet2: TTabSheet
         Caption = 'Consulta Abastecimentos'
         ImageIndex = 1
-        object DBGrid1: TDBGrid
-          Left = 0
-          Top = 49
-          Width = 874
-          Height = 412
-          Align = alClient
-          DataSource = DsConsulta
-          GradientEndColor = clBlack
-          GradientStartColor = clBlack
-          ReadOnly = True
-          TabOrder = 0
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -11
-          TitleFont.Name = 'Tahoma'
-          TitleFont.Style = []
-          OnDblClick = DBGrid1DblClick
-          Columns = <
-            item
-              Expanded = False
-              FieldName = 'ABA_CODIGO'
-              Title.Caption = 'Codigo'
-              Width = 46
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'ABA_TIPOCOMBUSTIVEL'
-              Title.Caption = 'Tipo do Combust'#237'vel'
-              Width = 101
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'ABA_BOMBA_UTILIZADA'
-              Title.Caption = 'n'#186' da Bomba Utilizada'
-              Width = 116
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'ABA_QTDLITROS'
-              Title.Caption = 'Quant. Litros'
-              Width = 68
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'ABA_DATA'
-              Title.Caption = 'Data do Abastecimento'
-              Width = 123
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'ABA_PRECO_COMBUSTIVEL'
-              Title.Caption = 'Pre'#231'o do Litro'
-              Width = 102
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'ABA_VALOR_BRUTO'
-              Title.Caption = 'Valor do Abastecimento'
-              Width = 119
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'ABA_VALOR_LIQUIDO'
-              Title.Caption = 'Valor do Abastecimento Total'
-              Width = 148
-              Visible = True
-            end>
-        end
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -786,8 +701,7 @@ object frmCadAbastecimento: TfrmCadAbastecimento
           Height = 49
           Align = alTop
           BevelOuter = bvNone
-          TabOrder = 1
-          ExplicitWidth = 864
+          TabOrder = 0
           object lbConsulta: TLabel
             Left = 3
             Top = 16
@@ -820,6 +734,145 @@ object frmCadAbastecimento: TfrmCadAbastecimento
               'Ano'
               'Todos os Registros')
           end
+        end
+        object DBGrid1: TDBGrid
+          Left = 0
+          Top = 49
+          Width = 874
+          Height = 412
+          Align = alClient
+          Color = clWhite
+          DataSource = DsConsulta
+          DrawingStyle = gdsGradient
+          GradientEndColor = clBlack
+          GradientStartColor = clBlack
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
+          TabOrder = 1
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Arial'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ABA_CODIGO'
+              ReadOnly = True
+              Title.Caption = 'Cod.:'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ABA_TIPOCOMBUSTIVEL'
+              ReadOnly = True
+              Title.Caption = 'Combustivel'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Width = 106
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ABA_BOMBA_UTILIZADA'
+              ReadOnly = True
+              Title.Caption = 'Bomba'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ABA_QTDLITROS'
+              ReadOnly = True
+              Title.Caption = 'Litros'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ABA_DATA'
+              ReadOnly = True
+              Title.Caption = 'Data'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ABA_PRECO_COMBUSTIVEL'
+              ReadOnly = True
+              Title.Caption = 'Pre'#231'o/L'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ABA_VALOR_BRUTO'
+              ReadOnly = True
+              Title.Caption = 'Valor Abastecido'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Desconto'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clRed
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = []
+              Title.Caption = 'Imposto(13%)'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'ABA_VALOR_LIQUIDO'
+              ReadOnly = True
+              Title.Caption = 'Valor Liquido'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWhite
+              Title.Font.Height = -11
+              Title.Font.Name = 'Arial'
+              Title.Font.Style = []
+              Visible = True
+            end>
         end
       end
     end
@@ -905,8 +958,55 @@ object frmCadAbastecimento: TfrmCadAbastecimento
     Top = 306
   end
   object FDQueryConsulta: TFDQuery
+    OnCalcFields = FDQueryConsultaCalcFields
     Connection = FDConnection1
+    SQL.Strings = (
+      'select * from abastecimento')
     Left = 669
     Top = 226
+    object FDQueryConsultaABA_CODIGO: TIntegerField
+      FieldName = 'ABA_CODIGO'
+      Origin = 'ABA_CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object FDQueryConsultaABA_TIPOCOMBUSTIVEL: TStringField
+      FieldName = 'ABA_TIPOCOMBUSTIVEL'
+      Origin = 'ABA_TIPOCOMBUSTIVEL'
+      Size = 30
+    end
+    object FDQueryConsultaABA_BOMBA_UTILIZADA: TIntegerField
+      FieldName = 'ABA_BOMBA_UTILIZADA'
+      Origin = 'ABA_BOMBA_UTILIZADA'
+    end
+    object FDQueryConsultaABA_QTDLITROS: TSingleField
+      FieldName = 'ABA_QTDLITROS'
+      Origin = 'ABA_QTDLITROS'
+      currency = True
+    end
+    object FDQueryConsultaABA_DATA: TDateField
+      FieldName = 'ABA_DATA'
+      Origin = 'ABA_DATA'
+    end
+    object FDQueryConsultaABA_PRECO_COMBUSTIVEL: TSingleField
+      FieldName = 'ABA_PRECO_COMBUSTIVEL'
+      Origin = 'ABA_PRECO_COMBUSTIVEL'
+      currency = True
+    end
+    object FDQueryConsultaABA_VALOR_BRUTO: TSingleField
+      FieldName = 'ABA_VALOR_BRUTO'
+      Origin = 'ABA_VALOR_BRUTO'
+      currency = True
+    end
+    object FDQueryConsultaABA_VALOR_LIQUIDO: TSingleField
+      FieldName = 'ABA_VALOR_LIQUIDO'
+      Origin = 'ABA_VALOR_LIQUIDO'
+      currency = True
+    end
+    object FDQueryConsultaDesconto: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'Desconto'
+      Calculated = True
+    end
   end
 end

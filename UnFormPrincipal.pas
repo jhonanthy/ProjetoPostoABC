@@ -145,8 +145,7 @@ begin
   finally
      showmodal;
      AtualizaAbastecimento;
-     FDTable1.free;
-
+     Free;
      FreeOnRelease;
   end;
 end;
@@ -202,7 +201,6 @@ FDQuery1.open;
 if  FDQuery1.IsEmpty then
 application.MessageBox('Consulta não encontrada na Base!','Informação',MB_OK+MB_ICONINFORMATION);
 
-FDQuery1.Free;
 end;
 procedure TfrmPrincipal.FDQuery1CalcFields(DataSet: TDataSet);
 begin

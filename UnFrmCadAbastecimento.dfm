@@ -723,7 +723,9 @@ object frmCadAbastecimento: TfrmCadAbastecimento
             Width = 146
             Height = 21
             Style = csDropDownList
+            ItemIndex = 0
             TabOrder = 1
+            Text = 'Codigo do Abastecimento'
             OnChange = cbPesquisaChange
             Items.Strings = (
               'Codigo do Abastecimento'
@@ -759,6 +761,7 @@ object frmCadAbastecimento: TfrmCadAbastecimento
           TitleFont.Height = -11
           TitleFont.Name = 'Arial'
           TitleFont.Style = []
+          OnDblClick = DBGrid1DblClick
           Columns = <
             item
               Expanded = False
