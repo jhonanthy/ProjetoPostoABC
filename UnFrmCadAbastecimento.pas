@@ -29,7 +29,6 @@ type
     edtData: TDBEdit;
     lbData: TLabel;
     TabSheet2: TTabSheet;
-    DBGrid1: TDBGrid;
     Panel2: TPanel;
     edtConsulta: TEdit;
     cbPesquisa: TComboBox;
@@ -64,6 +63,16 @@ type
     FDTable1ABA_PRECO_COMBUSTIVEL: TSingleField;
     FDTable1ABA_VALOR_BRUTO: TSingleField;
     FDTable1ABA_VALOR_LIQUIDO: TSingleField;
+    DBGrid1: TDBGrid;
+    FDQueryConsultaABA_CODIGO: TIntegerField;
+    FDQueryConsultaABA_TIPOCOMBUSTIVEL: TStringField;
+    FDQueryConsultaABA_BOMBA_UTILIZADA: TIntegerField;
+    FDQueryConsultaABA_QTDLITROS: TSingleField;
+    FDQueryConsultaABA_DATA: TDateField;
+    FDQueryConsultaABA_PRECO_COMBUSTIVEL: TSingleField;
+    FDQueryConsultaABA_VALOR_BRUTO: TSingleField;
+    FDQueryConsultaABA_VALOR_LIQUIDO: TSingleField;
+    FDQueryConsultaDesconto: TCurrencyField;
     procedure FormCreate(Sender: TObject);
     procedure DBNavigator1BeforeAction(Sender: TObject; Button: TNavigateBtn);
     procedure FormShow(Sender: TObject);
@@ -79,6 +88,7 @@ type
     procedure SbNovoClick(Sender: TObject);
     procedure Sb_ExcluirClick(Sender: TObject);
     procedure SbCancelarClick(Sender: TObject);
+    procedure FDQueryConsultaCalcFields(DataSet: TDataSet);
   private
     FConsultaSQL: string;
     procedure Sb_SairClick(Sender: TObject);
@@ -91,7 +101,7 @@ type
     procedure CarregaDados(Value:string);
     procedure GravandoDados;
     procedure LimpaComponentes;
-    procedure ValidaCampos;
+    function ValidaCampos:boolean;
     procedure HabilitaControles(Value:TTipoOperacao);
 
     property ConsultaSQL :string read FConsultaSQL write SetConsultaSQL;
@@ -101,13 +111,14 @@ var
   frmCadAbastecimento: TfrmCadAbastecimento;
 implementation
 {$R *.dfm}
-uses UnDataModule, UnFrmRelatorioAbastecimento, UnAbastecimento;
+uses  UnFrmRelatorioAbastecimento, UnAbastecimento, UnConfigRelatorios;
 procedure TfrmCadAbastecimento.CarregaDados(Value:string);
 var
 strComando:string;
 begin
 
     with FDTable1 do
+    try
     begin
       Close;
       sql.Clear;
@@ -119,6 +130,9 @@ begin
       Open;
       Locate('ABA_CODIGO', FDQueryConsulta.FieldByName('ABA_CODIGO').AsString, []);
       CbBombaUtilizada.ItemIndex:= FieldByName('ABA_BOMBA_UTILIZADA').AsInteger
+    end;
+    finally
+      Free;
     end;
 end;
 
@@ -203,42 +217,36 @@ strComando:=' Select * from ABASTECIMENTO  ';
      0 : // codigo do abastecimento
       begin
        strComando:= strComando + '  WHERE ABA_CODIGO = '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_CODIGO Desc';
       end;
      1: //tipo de combustivel
        begin
-       {strComando2 + ' and ( upper(TEN_ATENDENTE) LIKE ' +
-              quotedstr('%' + uppercase(strPesquisa) + '%');}
        strComando:= strComando + '  WHERE upper(ABA_TIPOCOMBUSTIVEL) LIKE '+quotedstr('%'+ uppercase(edtConsulta.Text)+'%');
-       strComando:= strComando +'  order by ABA_CODIGO Desc';
        end;
      2: // bomba utilizada
        begin
        strComando:= strComando + '  WHERE ABA_BOMBA_UTILIZADA = '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_CODIGO Desc';
        end;
      3: // Dia
       begin
        strComando:= strComando + '  WHERE EXTRACT(Day from ABA_DATA) like '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_CODIGO Desc';
       end;
      4://Mês
       begin
        strComando:= strComando + '  WHERE EXTARCT(Month from ABA_DATA) like '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_DATA Desc';
       end;
      5://Ano
      begin
        strComando:= strComando + '  WHERE EXTARCT(Year from ABA_DATA) like '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_DATA Desc';
      end;
      6: //Todos os Registros
      begin
        strComando:= strComando + '  ';
-       strComando:= strComando +'  order by ABA_CODIGO asc';
      end;
 
     end;
+
+
+strComando:= strComando +'  order by ABA_CODIGO desc';
 
 ConsultaSQL:=strComando;
 
@@ -247,7 +255,12 @@ FDQueryConsulta.SQL.Add(strComando);
 FDQueryConsulta.open;
 if  FDQueryConsulta.IsEmpty then
 application.MessageBox('Consulta não encontrada na Base!','Informação',MB_OK+MB_ICONINFORMATION);
+//  FDQueryConsulta.Free;
+end;
 
+procedure TfrmCadAbastecimento.FDQueryConsultaCalcFields(DataSet: TDataSet);
+begin
+ FDQueryConsultaDesconto.AsCurrency:= FDQueryConsultaABA_VALOR_BRUTO.AsCurrency * 0.13;
 end;
 
 procedure TfrmCadAbastecimento.FormClose(Sender: TObject;
@@ -307,7 +320,11 @@ Abastecimento : TAbastecimento;
 Combustivel:string;
 begin
 Abastecimento := TAbastecimento.Create();
-Combustivel:=Abastecimento.getTipoCombustivel(TTipoCombustivel(CbBombaUtilizada.ItemIndex));
+case CbBombaUtilizada.ItemIndex of
+ 1,3:Combustivel:=Abastecimento.getTipoCombustivel(TTipoCombustivel(1)); //gasolina
+ 2,4:Combustivel:=Abastecimento.getTipoCombustivel(TTipoCombustivel(2)); //diesel
+
+end;
 
  FDTable1.FieldByName('ABA_BOMBA_UTILIZADA').AsInteger:=CbBombaUtilizada.ItemIndex;
  FDTable1.FieldByName('ABA_TIPOCOMBUSTIVEL').AsString:= Combustivel;
@@ -322,8 +339,10 @@ if TipoOperacao = toInsert then
    begin
      SbAlterar.Enabled:=false;
      Sb_Excluir.Enabled:=false;
+     SbNovo.Enabled:=false;
      SbCancelar.Enabled:=true;
      SbGravar.Enabled:=true;
+
 
      CbBombaUtilizada.Enabled:=true;
      DBEdtPreco.Enabled:=true;
@@ -331,6 +350,7 @@ if TipoOperacao = toInsert then
    end
 else if TipoOperacao = toUpdate then
    begin
+     SbAlterar.Enabled:=false;
      SbNovo.Enabled:=false;
      Sb_Excluir.Enabled:=false;
      SbCancelar.Enabled:=true;
@@ -341,10 +361,21 @@ else if TipoOperacao = toUpdate then
    end
 else if TipoOperacao = toSelect then
    begin
+     if FDTable1.RecordCount = 0 then
+      begin
+      SbAlterar.Enabled:=false;
+       Sb_Excluir.Enabled:=false;
+      end
+      else
+      begin
+       Sb_Excluir.Enabled:=true;
+      SbAlterar.Enabled:=true;
+      end;
+
      SbNovo.Enabled:=true;
-     Sb_Excluir.Enabled:=true;
+
      SbCancelar.Enabled:=true;
-     SbGravar.Enabled:=true;
+     SbGravar.Enabled:=false;
      CbBombaUtilizada.Enabled:=false;
      DBEdtPreco.Enabled:=false;
      DBEdtLitro.Enabled:=false;
@@ -354,7 +385,13 @@ end;
 
 procedure TfrmCadAbastecimento.ImprimirClick(Sender: TObject);
 begin
- frmRelatorioAbastecimento.RLReport1.Preview;
+// frmRelatorioAbastecimento.RLReport1.Preview;
+ with TfrmConfigRelatorios.Create(self) do
+  try
+   showmodal;
+  finally
+    FreeOnRelease;
+  end;
 end;
 
 procedure TfrmCadAbastecimento.LimpaComponentes;
@@ -397,18 +434,20 @@ procedure TfrmCadAbastecimento.SbGravarClick(Sender: TObject);
 begin
  TipoOperacao := toSelect;
   GravandoDados;
-  ValidaCampos;
- HabilitaControles(TipoOperacao);
-try
-FDTable1.Post;
-//if TipoOperacao = toInsert then
-FDTransaction1.CommitRetaining
-//else
+if ValidaCampos then
+  begin
+  try
+  HabilitaControles(TipoOperacao);
+  FDTable1.Post;
+  //if TipoOperacao = toInsert then
+  FDTransaction1.CommitRetaining
+  //else
 
-except
-application.MessageBox('Não foi possivel salvar o registro','ERRO',MB_OK+MB_ICONEXCLAMATION);
-end;
-application.MessageBox('Registro salvo com Sucesso!','Informação',MB_OK+MB_ICONINFORMATION);
+  except
+  application.MessageBox('Não foi possivel salvar o registro','ERRO',MB_OK+MB_ICONEXCLAMATION);
+  end;
+    application.MessageBox('Registro salvo com Sucesso!','Informação',MB_OK+MB_ICONINFORMATION);
+  end;
 end;
 
 procedure TfrmCadAbastecimento.SbNovoClick(Sender: TObject);
@@ -465,20 +504,25 @@ begin
   self.tag := ord(Value);
 end;
 
-procedure TfrmCadAbastecimento.ValidaCampos;
+function TfrmCadAbastecimento.ValidaCampos:boolean;
 begin
+{se não passar na validação retorna false}
   begin
+  result:=true;
     if FDTable1ABA_PRECO_COMBUSTIVEL.IsNull then
     begin
+     result:=false;
       application.MessageBox('Preço do Combustivel por Litro não inserido!'
       ,'Atenção',MB_OK+MB_ICONWARNING);
       if DBEdtPreco.CanFocus then
          DBEdtPreco.SetFocus;
          exit;
+
     end;
 
     if FDTable1ABA_QTDLITROS.IsNull then
     begin
+    result:=false;
       application.MessageBox('Quantidade de Litros abastecido não inserido!'
       ,'Atenção',MB_OK+MB_ICONWARNING);
       if DBEdtLitro.CanFocus then
@@ -490,6 +534,7 @@ begin
   case CbBombaUtilizada.ItemIndex of
         -1,0:
          begin
+         result:=false;
            application.MessageBox('A Bomba de abastecimento não foi selecionada!'
             ,'Atenção',MB_OK+MB_ICONWARNING);
             if CbBombaUtilizada.CanFocus then
@@ -497,6 +542,7 @@ begin
                exit;
          end;
   end;
+
 end;
 
 end.

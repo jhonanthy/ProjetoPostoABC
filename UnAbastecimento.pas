@@ -69,7 +69,7 @@ implementation
 
 { TAbastecimento }
 
-uses UnFormPrincipal, UnDataModule;
+uses UnFormPrincipal, UnFrmCadAbastecimento;
 
 
 procedure TAbastecimento.alterar(obj: TAbastecimento);
@@ -89,7 +89,7 @@ strComando:string;
 query:TFDQuery;
 begin
 query := TFDQuery.Create(nil);
-query.Connection:= frmDataModule.FDConnection1;
+query.Connection:= frmCadAbastecimento.FDConnection1;
 query.Close;
 query.sql.Clear;
 query.sql.Add(SQLUPDATE);

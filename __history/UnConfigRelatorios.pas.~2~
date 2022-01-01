@@ -1,0 +1,38 @@
+unit UnConfigRelatorios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmConfigRelatorios = class(TForm)
+    Panel1: TPanel;
+    rdgRelatorios: TRadioGroup;
+    pnlRelatorios: TPanel;
+    Label1: TLabel;
+    CbAgrupamentos: TComboBox;
+    procedure rdgRelatoriosClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfigRelatorios: TfrmConfigRelatorios;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmConfigRelatorios.rdgRelatoriosClick(Sender: TObject);
+begin
+if rdgRelatorios.ItemIndex = 0 then
+pnlRelatorios.Visible:=false
+else
+pnlRelatorios.Visible:=true;
+end;
+
+end.

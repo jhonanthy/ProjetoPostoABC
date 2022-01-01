@@ -1,0 +1,48 @@
+unit UnfrmRelatorioAbastecimento2;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, RLReport, Vcl.Imaging.pngimage,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TfrmRelatorioAbastecimento2 = class(TForm)
+    RLReport1: TRLReport;
+    RLBand5: TRLBand;
+    RLImage1: TRLImage;
+    RLPanel1: TRLPanel;
+    RLLabel3: TRLLabel;
+    RLGroup1: TRLGroup;
+    FDQuery1: TFDQuery;
+    DataSource1: TDataSource;
+  private
+    FTipoAgrupamento: integer;
+    procedure SetTipoAgrupamento(const Value: integer);
+    { Private declarations }
+  public
+    { Public declarations }
+    property TipoAgrupamento: integer read FTipoAgrupamento write SetTipoAgrupamento;
+  end;
+
+var
+  frmRelatorioAbastecimento2: TfrmRelatorioAbastecimento2;
+
+implementation
+
+{$R *.dfm}
+
+uses UnFrmCadAbastecimento;
+
+{ TfrmRelatorioAbastecimento2 }
+
+procedure TfrmRelatorioAbastecimento2.SetTipoAgrupamento(const Value: integer);
+begin
+  FTipoAgrupamento := Value;
+end;
+
+end.

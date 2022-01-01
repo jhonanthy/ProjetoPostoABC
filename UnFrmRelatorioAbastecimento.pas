@@ -44,7 +44,6 @@ type
     RLLabel4: TRLLabel;
     RLGroup3: TRLGroup;
     RLDraw1: TRLDraw;
-    RLLabel6: TRLLabel;
     RLPanel2: TRLPanel;
     RLDBText3: TRLDBText;
     RLLabel1: TRLLabel;
@@ -56,9 +55,7 @@ type
     RLBand7: TRLBand;
     FDQuery1DESCONTO: TCurrencyField;
     RLDBText2: TRLDBText;
-    RLLabel8: TRLLabel;
     RLDBText6: TRLDBText;
-    RLLabel9: TRLLabel;
     RLPanel3: TRLPanel;
     RLLabel7: TRLLabel;
     RLDBResult2: TRLDBResult;
@@ -67,6 +64,9 @@ type
     RLLabel11: TRLLabel;
     RLDBResult4: TRLDBResult;
     RLLabel12: TRLLabel;
+    RLLabel6: TRLLabel;
+    RLLabel8: TRLLabel;
+    RLLabel9: TRLLabel;
     procedure FDQuery1CalcFields(DataSet: TDataSet);
   private
     { Private declarations }
@@ -82,7 +82,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnDataModule, UnFormPrincipal;
+uses  UnFormPrincipal, UnFrmCadAbastecimento;
 
 { TForm1 }
 

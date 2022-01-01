@@ -13,6 +13,7 @@ object frmPrincipal: TfrmPrincipal
   Font.Style = []
   OldCreateOrder = False
   WindowState = wsMaximized
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,10 +24,6 @@ object frmPrincipal: TfrmPrincipal
     Height = 462
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 328
-    ExplicitTop = 200
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Panel1: TPanel
       Left = 1
       Top = 1
@@ -35,7 +32,6 @@ object frmPrincipal: TfrmPrincipal
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitWidth = 1171
       object PanelData: TPanel
         Left = 956
         Top = 0
@@ -51,8 +47,6 @@ object frmPrincipal: TfrmPrincipal
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 946
-        ExplicitTop = -6
       end
     end
     object pnlbutton: TPanel
@@ -62,9 +56,6 @@ object frmPrincipal: TfrmPrincipal
       Height = 173
       Align = alBottom
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 284
-      ExplicitWidth = 1172
       object Panel2: TPanel
         Left = 953
         Top = 1
@@ -74,7 +65,6 @@ object frmPrincipal: TfrmPrincipal
         BevelOuter = bvNone
         Caption = 'Panel1'
         TabOrder = 0
-        ExplicitLeft = 943
         object MonthCalendar1: TMonthCalendar
           Left = 0
           Top = 0
@@ -83,6 +73,7 @@ object frmPrincipal: TfrmPrincipal
           Align = alTop
           Date = 36526.000000000000000000
           TabOrder = 0
+          OnDblClick = MonthCalendar1DblClick
         end
       end
       object Panel3: TPanel
@@ -448,12 +439,9 @@ object frmPrincipal: TfrmPrincipal
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitLeft = 183
-        ExplicitTop = 6
-        ExplicitWidth = 766
         object lbConsulta: TLabel
           Left = 51
-          Top = 32
+          Top = 39
           Width = 46
           Height = 13
           Caption = 'Pesquisa:'
@@ -464,6 +452,7 @@ object frmPrincipal: TfrmPrincipal
           Width = 433
           Height = 21
           TabOrder = 0
+          OnChange = edtConsultaChange
         end
         object cbPesquisa: TComboBox
           Left = 542
@@ -474,6 +463,7 @@ object frmPrincipal: TfrmPrincipal
           ItemIndex = 0
           TabOrder = 1
           Text = 'Codigo do Abastecimento'
+          OnChange = cbPesquisaChange
           Items.Strings = (
             'Codigo do Abastecimento'
             'Tipo de Combustivel'
@@ -485,7 +475,7 @@ object frmPrincipal: TfrmPrincipal
         end
       end
     end
-    object dbgAtividade: TDBGrid
+    object DbgAbastecimento: TDBGrid
       Left = 1
       Top = 73
       Width = 1181
@@ -509,15 +499,11 @@ object frmPrincipal: TfrmPrincipal
       TitleFont.Height = -11
       TitleFont.Name = 'Arial'
       TitleFont.Style = []
+      OnDblClick = DbgAbastecimentoDblClick
       Columns = <
         item
           Expanded = False
           FieldName = 'ABA_CODIGO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Title.Caption = 'Cod.:'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWhite
@@ -529,11 +515,6 @@ object frmPrincipal: TfrmPrincipal
         item
           Expanded = False
           FieldName = 'ABA_TIPOCOMBUSTIVEL'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Title.Caption = 'Combustivel'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWhite
@@ -545,11 +526,6 @@ object frmPrincipal: TfrmPrincipal
         item
           Expanded = False
           FieldName = 'ABA_BOMBA_UTILIZADA'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Title.Caption = 'Bomba'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWhite
@@ -561,11 +537,6 @@ object frmPrincipal: TfrmPrincipal
         item
           Expanded = False
           FieldName = 'ABA_QTDLITROS'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Title.Caption = 'Litros'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWhite
@@ -577,11 +548,6 @@ object frmPrincipal: TfrmPrincipal
         item
           Expanded = False
           FieldName = 'ABA_DATA'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Title.Caption = 'Data'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWhite
@@ -593,11 +559,6 @@ object frmPrincipal: TfrmPrincipal
         item
           Expanded = False
           FieldName = 'ABA_PRECO_COMBUSTIVEL'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Title.Caption = 'Pre'#231'o/L'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWhite
@@ -609,11 +570,6 @@ object frmPrincipal: TfrmPrincipal
         item
           Expanded = False
           FieldName = 'ABA_VALOR_BRUTO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Title.Caption = 'Vaslor Bruto'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWhite
@@ -641,11 +597,6 @@ object frmPrincipal: TfrmPrincipal
         item
           Expanded = False
           FieldName = 'ABA_VALOR_LIQUIDO'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Title.Caption = 'Valor Liquido'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWhite
@@ -691,14 +642,17 @@ object frmPrincipal: TfrmPrincipal
     object FDQuery1ABA_PRECO_COMBUSTIVEL: TSingleField
       FieldName = 'ABA_PRECO_COMBUSTIVEL'
       Origin = 'ABA_PRECO_COMBUSTIVEL'
+      currency = True
     end
     object FDQuery1ABA_VALOR_BRUTO: TSingleField
       FieldName = 'ABA_VALOR_BRUTO'
       Origin = 'ABA_VALOR_BRUTO'
+      currency = True
     end
     object FDQuery1ABA_VALOR_LIQUIDO: TSingleField
       FieldName = 'ABA_VALOR_LIQUIDO'
       Origin = 'ABA_VALOR_LIQUIDO'
+      currency = True
     end
     object FDQuery1Desconto: TCurrencyField
       FieldKind = fkCalculated
