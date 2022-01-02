@@ -82,11 +82,12 @@ procedure TfrmPrincipal.AtualizaAbastecimento;
 var
 strComando:string;
 begin
-//DataAbastecimento
-//FormatDateTime('mm/dd/yyyy', MonthCalendar1.Date);
 strComando:='select * from ABASTECIMENTO';
+if DataAbastecimento<>0 then
+strComando:=strComando + '  Where ABA_DATA = '+ quotedstr(FormatDateTime('mm/dd/yyyy', DataAbastecimento));
 
-strComando:=strComando + 'Where ABA_DATA = '+datetostr(DataAbastecimento);
+strComando:=strComando + '  order by ABA_CODIGO desc';
+
 FDQuery1.Close;
 FDQuery1.SQL.Clear;
 FDQuery1.SQL.Add(strComando);
@@ -138,14 +139,14 @@ begin
       sql.Add(strComando);
       Open;
       Locate('ABA_CODIGO', FDQuery1.FieldByName('ABA_CODIGO').AsString, []);
-      CbBombaUtilizada.ItemIndex:= FieldByName('ABA_BOMBA_UTILIZADA').AsInteger
+      CbBombaUtilizada.ItemIndex:= FieldByName('ABA_BOMBA_UTILIZADA').AsInteger;
+      FDTable1DESCONTO.AsCurrency:= self.FDQuery1Desconto.AsCurrency;
     end;
 
   finally
      showmodal;
      AtualizaAbastecimento;
-     FDTable1.free;
-
+     Free;
      FreeOnRelease;
   end;
 end;
@@ -166,48 +167,41 @@ strComando:=' Select * from ABASTECIMENTO  ';
      0 : // codigo do abastecimento
       begin
        strComando:= strComando + '  WHERE ABA_CODIGO = '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_CODIGO Desc';
       end;
      1: //tipo de combustivel
        begin
        strComando:= strComando + '  WHERE upper(ABA_TIPOCOMBUSTIVEL) LIKE '+quotedstr('%'+ uppercase(edtConsulta.Text)+'%');
-       strComando:= strComando +'  order by ABA_CODIGO Desc';
        end;
      2: // bomba utilizada
        begin
        strComando:= strComando + '  WHERE ABA_BOMBA_UTILIZADA = '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_CODIGO Desc';
        end;
      3: // Dia
       begin
        strComando:= strComando + '  WHERE EXTRACT(Day from ABA_DATA) like '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_CODIGO Desc';
       end;
      4://Mês
       begin
        strComando:= strComando + '  WHERE EXTARCT(Month from ABA_DATA) like '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_DATA Desc';
       end;
      5://Ano
      begin
        strComando:= strComando + '  WHERE EXTARCT(Year from ABA_DATA) like '+trim(edtConsulta.Text);
-       strComando:= strComando +'  order by ABA_DATA Desc';
      end;
      6: //Todos os Registros
      begin
        strComando:= strComando + '  ';
-       strComando:= strComando +'  order by ABA_CODIGO asc';
      end;
 
     end;
 
+strComando:= strComando +'  order by ABA_CODIGO desc';
 FDQuery1.SQL.Clear;
 FDQuery1.SQL.Add(strComando);
 FDQuery1.open;
 if  FDQuery1.IsEmpty then
 application.MessageBox('Consulta não encontrada na Base!','Informação',MB_OK+MB_ICONINFORMATION);
 
-FDQuery1.Free;
 end;
 procedure TfrmPrincipal.FDQuery1CalcFields(DataSet: TDataSet);
 begin

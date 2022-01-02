@@ -22,6 +22,10 @@ object frmConfigRelatorios: TfrmConfigRelatorios
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitLeft = 304
+    ExplicitTop = 88
+    ExplicitWidth = 185
+    ExplicitHeight = 41
     object rdgRelatorios: TRadioGroup
       Left = 0
       Top = 0
@@ -30,12 +34,12 @@ object frmConfigRelatorios: TfrmConfigRelatorios
       Align = alTop
       Caption = 'Relatorios'
       Columns = 2
-      ItemIndex = 0
       Items.Strings = (
         'Modelo 1 (Todos os Agrupamentos)'
         'Modelo 2 (Agrupamento Escolhido)')
       TabOrder = 0
       OnClick = rdgRelatoriosClick
+      ExplicitTop = 8
     end
     object pnlRelatorios: TPanel
       Left = 0
@@ -45,6 +49,9 @@ object frmConfigRelatorios: TfrmConfigRelatorios
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitLeft = 1
+      ExplicitTop = 104
+      ExplicitWidth = 445
       object sbImprimir: TSpeedButton
         Left = 0
         Top = 41

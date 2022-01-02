@@ -100,7 +100,7 @@ case TipoAgrupamento of
   2: // bomba
   begin
     RLLbTitulo.Caption:=RLLbTitulo.Caption + '   -  Bomba Utilizada';
-    RLGroup1.DataFields:='ABA_BOMBA_UTILIZADA';
+    RLGroup1.DataFields:='ABA_BOMBAUTILIZADA';
   end;
 
 end;

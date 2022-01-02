@@ -162,13 +162,13 @@ end;
 
 procedure TfrmCadAbastecimento.DBEdtLitroExit(Sender: TObject);
 begin
- if TipoOperacao = toInsert then
+ if TipoOperacao in [toInsert,toUpdate] then
   FDTable1ABA_VALOR_BRUTO.Value:= FDTable1ABA_PRECO_COMBUSTIVEL.Value * FDTable1ABA_QTDLITROS.Value;
 end;
 
 procedure TfrmCadAbastecimento.DBEdtValAbastecidoChange(Sender: TObject);
 begin
-  if TipoOperacao = toInsert then
+  if TipoOperacao in [toInsert,toUpdate] then
    begin
    FDTable1DESCONTO.AsCurrency :=FDTable1ABA_VALOR_BRUTO.AsCurrency * 0.13;
     // o total vai ser o valor liquido deduzindo o imposto

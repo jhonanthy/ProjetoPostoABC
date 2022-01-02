@@ -139,7 +139,11 @@ begin
       sql.Add(strComando);
       Open;
       Locate('ABA_CODIGO', FDQuery1.FieldByName('ABA_CODIGO').AsString, []);
-      CbBombaUtilizada.ItemIndex:= FieldByName('ABA_BOMBA_UTILIZADA').AsInteger
+      CbBombaUtilizada.ItemIndex:= FieldByName('ABA_BOMBA_UTILIZADA').AsInteger;
+      begin
+      FDTable1.Edit;    //carregando campo calculado imposto para;
+      FDTable1.FieldByName('DESCONTO').AsCurrency:= self.FDQuery1Desconto.AsCurrency;
+      end;
     end;
 
   finally

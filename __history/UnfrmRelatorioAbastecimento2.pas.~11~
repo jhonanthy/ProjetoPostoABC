@@ -95,12 +95,12 @@ case TipoAgrupamento of
 1:// tanque
   begin
     RLLbTitulo.Caption:=RLLbTitulo.Caption + '   -  Tanque';
-    RLGroup1.DataFields:= 'ABA_TIPOCOMBUSTIVEL';
+    RLGroup1.DataFields:= 'ABA_TIPO_COMBUSTIVEL';
   end;
   2: // bomba
   begin
     RLLbTitulo.Caption:=RLLbTitulo.Caption + '   -  Bomba Utilizada';
-    RLGroup1.DataFields:='ABA_BOMBA_UTILIZADA';
+    RLGroup1.DataFields:='ABA_BOMBAUTILIZADA';
   end;
 
 end;
