@@ -289,11 +289,11 @@ object frmRelatorioAbastecimento2: TfrmRelatorioAbastecimento2
           Text = ''
         end
         object RLDBText1: TRLDBText
-          Left = 464
+          Left = 469
           Top = 22
-          Width = 133
+          Width = 86
           Height = 16
-          DataField = 'ABA_VALOR_BRUTO'
+          DataField = 'Desconto'
           DataSource = DataSource1
           DisplayMask = 'R$#,##0.00'
           Font.Charset = DEFAULT_CHARSET
