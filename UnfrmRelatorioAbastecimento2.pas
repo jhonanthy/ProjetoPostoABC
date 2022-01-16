@@ -14,7 +14,6 @@ type
   TfrmRelatorioAbastecimento2 = class(TForm)
     RLReport1: TRLReport;
     RLBand5: TRLBand;
-    RLImage1: TRLImage;
     RLPanel1: TRLPanel;
     RLLbTitulo: TRLLabel;
     RLGroup1: TRLGroup;

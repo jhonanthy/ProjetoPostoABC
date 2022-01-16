@@ -38,7 +38,6 @@ type
     FDQuery1ABA_BOMBA_UTILIZADA: TIntegerField;
     FDQuery1ABA_DATA: TDateField;
     RLBand5: TRLBand;
-    RLImage1: TRLImage;
     RLPanel1: TRLPanel;
     RLLabel3: TRLLabel;
     RLLabel4: TRLLabel;

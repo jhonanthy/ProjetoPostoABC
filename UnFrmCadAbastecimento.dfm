@@ -195,6 +195,7 @@ object frmCadAbastecimento: TfrmCadAbastecimento
                   FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
                   FFFFFFFFFFFFFFFEFEFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
                   FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+                OnClick = Sb_LimparClick
                 ExplicitLeft = 554
               end
               object SbCancelar: TSpeedButton

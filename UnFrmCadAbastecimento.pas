@@ -89,6 +89,7 @@ type
     procedure Sb_ExcluirClick(Sender: TObject);
     procedure SbCancelarClick(Sender: TObject);
     procedure FDQueryConsultaCalcFields(DataSet: TDataSet);
+    procedure Sb_LimparClick(Sender: TObject);
   private
     FConsultaSQL: string;
     procedure Sb_SairClick(Sender: TObject);
@@ -486,6 +487,11 @@ begin
    exit;
   end;
 
+end;
+
+procedure TfrmCadAbastecimento.Sb_LimparClick(Sender: TObject);
+begin
+ LimpaComponentes;
 end;
 
 procedure TfrmCadAbastecimento.Sb_SairClick(Sender: TObject);
